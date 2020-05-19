@@ -5,6 +5,7 @@ from Upchanges.models import BlogPost
 from Upchanges.blog_posts.forms import BlogPostForm
 from Upchanges.users.picture_handler import add_blog_pic
 
+
 blog_posts = Blueprint('blog_posts',__name__)
 
 #Create

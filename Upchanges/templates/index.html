@@ -3,6 +3,10 @@
 
 {% block content %}
 <link href="../static/css/index.css" rel="stylesheet" type="text/css">
+
+
+
+
 <div id="cool">
 <br>
     <br>
@@ -41,10 +45,23 @@
         <a class="nav-link" href="#"></a>
       </p>
 
-    <form class="form-inline my-2 my-lg-0 text-right">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search problem" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+{#{% with messages = get_flashed_messages() %}#}
+{#  {% if messages %}#}
+{#    <ul class=flashes>#}
+{#    {% for message in messages %}#}
+{#      <li>{{ message }}</li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+{#  {% endif %}#}
+{#{% endwith %}#}
+
+      {% from "formhelpers.html" import render_field %}
+        <form class="form-inline my-2 my-lg-0 text-right" method=POST>
+            {{ render_field(form.search) }}
+           <input type=submit value=Search>
+        </form>
+
+
        <p class="nav-item" >
         <a class="nav-link disabled" href="#">Country:<img class=" rounded mx-auto d-block" src="../static/vietnam_flag.png"  alt="" height="25"></a>
        </p>
@@ -52,6 +69,7 @@
        <button href="#" type="button" class="btn btn-outline-dark">Change country</button>
 
 </nav>
+
 
 <p></p>
 
@@ -76,18 +94,6 @@
 
 {% endfor %}
 
-{#{% for post_next in many_posts.items %}#}
-{#    <div class="card border-dark mb-3 " style="width: 25rem;">#}
-{#     <div class="card-body ">#}
-{#         <h2><a class="card-tittle text-body" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post_next.blog_next) }}">{{ post_next.problem_name}}</a></h2>#}
-{#         <h7>Posted By: <a class="text-warning" href="{{ url_for('users.user_posts', username=post_next.creator.first_name+post_next.creator.middle_name+post_next.creator.last_name) }}">{{ post_next.creator.first_name}} {{ post_next.creator.middle_name }} {{ post_next.creator.last_name }}</a></h7> {# Change href="{{ url_for('users.user_posts', username=post.creator.username) }}" to .........username=post.creator.first_name+post.creator.middle_name+post.creator.last_name#}
-{#         <p>Posted on: {{ post.date.strftime('%Y-%m-%d') }}</p>#}
-{#         <a class="btn btn-warning" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post_next.blog_next) }}">Read more</a>#}
-{#     </div>#}
-{##}
-{##}
-{#    </div>#}
-{#{% endfor %}#}
 
 
 </div>

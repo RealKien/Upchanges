@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 # DATABASE SETUP
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,
-                                                                    'data.sqlite')  # Taking risk by using mysql, maysbe should had use sqlite.
+                                                                    '../Upchanges/data.sqlite')  # Taking risk by using mysql, maysbe should had use sqlite.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1

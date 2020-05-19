@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
 
 
 class BlogPost(db.Model):
-
+    __tablename__ = 'blog_post'
     users = db.relationship(User)
 
     blog_id = db.Column(db.Integer, primary_key=True)

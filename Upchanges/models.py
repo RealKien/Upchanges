@@ -52,13 +52,15 @@ class BlogPost(db.Model):
     problem_name = db.Column(db.String(140), nullable=False)
     text = db.Column(db.Text, nullable=False)
     blog_image = db.Column(db.String(140), nullable=False, server_default='default_blog.jpg')
+    problem_type = db.Column(db.String(140), nullable=False, server_default='test_type')
     ###IF I CAN'T FIX THE BLOG_IMAGE ERRORS, I CAN JUST COMMENT OFF THOSE CODES THAT RELATE TO THEM###
 
-    def __init__(self, text, problem_name, user_id, blog_image):
+    def __init__(self, text, problem_name, user_id, blog_image, prolem_type):
         self.text = text
         self.problem_name = problem_name
         self.user_id = user_id
         self.blog_image = blog_image
+        self.problem_type = prolem_type
 
 
 

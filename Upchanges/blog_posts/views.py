@@ -19,7 +19,8 @@ def create_post():
         blog_validated = BlogPost(problem_name=form.problem_name.data,
                                   text=form.text.data,
                                   user_id=current_user.id,
-                                  blog_image=add_blog_pic(form.blog_image.data, form.problem_name.data+str(current_user.id))) #####
+                                  blog_image=add_blog_pic(form.blog_image.data, form.problem_name.data+str(current_user.id)),
+                                  prolem_type=form.problem_type.data) #Probaly,.choices is wrong
 
 
         blog_image = url_for('static', filename='profile_pics/' + blog_validated.blog_image)
@@ -41,7 +42,8 @@ def blog_view(blog_validated_id):
     return render_template('blog_view.html', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
-                           post=blog_view)
+                           post=blog_view,
+                           problem_type= blog_view.problem_type)
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)
 
 
@@ -64,6 +66,7 @@ def update(blog_validated_id):
 
         blog_update.problem_name = form.problem_name.data
         blog_update.text = form.text.data
+        blog_update.problem_type = form.problem_type.data
         db.session.commit()
         flash('Blog Post Updated')
         return redirect(url_for('blog_posts.blog_view',blog_validated_id=blog_update.blog_id, blog_image=url_for('static', filename='blog_pics/' + blog_update.blog_image)))
@@ -72,6 +75,7 @@ def update(blog_validated_id):
         form.problem_name.data = blog_update.problem_name
         form.text.data = blog_update.text
         form.blog_image.data=blog_update.blog_image
+        form.problem_type.data=blog_update.problem_type
 
     return render_template('create_post.html', form=form)
 

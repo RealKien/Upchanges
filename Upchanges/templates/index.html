@@ -33,11 +33,12 @@
     Filter type of problems
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Education</a>
-    <a class="dropdown-item" href="#">Health</a>
-    <a class="dropdown-item" href="#">Environment</a>
-    <a class="dropdown-item" href="#">Economics</a>
-    <a class="dropdown-item" href="#">Society</a>
+    <a class="dropdown-item" href="{{ url_for('core.education')}}">Education<span class="iconify" data-icon="carbon:education" data-inline="false"></span></a>
+    <a class="dropdown-item" href="{{ url_for('core.health')}}">Health<span class="iconify" data-icon="ant-design:heart-outlined" data-inline="false"></span></a>
+    <a class="dropdown-item" href="{{ url_for('core.environment') }}">Environment<span class="iconify" data-icon="emojione-monotone:deciduous-tree" data-inline="false"></span></a>
+    <a class="dropdown-item" href="{{ url_for('core.economics') }}">Economics<span class="iconify" data-icon="emojione-monotone:money-with-wings" data-inline="false"></span></a>
+    <a class="dropdown-item" href="{{ url_for('core.society') }}">Society<span class="iconify" data-icon="bi:people" data-inline="false"></span></a>
+    <a class="dropdown-item" href="{{ url_for('core.index')}}">All Types</a>
   </div>
 </div>
 
@@ -55,9 +56,9 @@
 {#  {% endif %}#}
 {#{% endwith %}#}
 
-      {% from "formhelpers.html" import render_field %}
+
         <form class="form-inline my-2 my-lg-0 text-right" method=POST>
-            {{ render_field(form.search) }}
+            {{ form.search(placeholder="Search for problems")}}
            <input type=submit value=Search>
         </form>
 
@@ -78,6 +79,7 @@
 
     <div class="card border-dark mb-3 " style="width: 20rem;">
      <div class="card-body ">
+         <p class="text-primary text-left">#{{ post.problem_type }}</p>
          <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "35" height = "35" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
          <p></p>
          <img class="text-center rounded responsive1" alt="" src="{{ url_for('static', filename='blog_pics/'+ post.blog_image) }}" width = "495" height = "250">

@@ -74,12 +74,27 @@
 
 <p></p>
 
+    {% macro sentence_case(text) %}
+      {{ text[0]|upper}}{{text[1:] }}
+    {% endmacro %}
+
+
 <div class="container row row-cols-1 row-cols-md-2 text-center">
 {% for post in many_posts.items%}
 
     <div class="card border-dark mb-3 " style="width: 20rem;">
      <div class="card-body ">
-         <p class="text-primary text-left">#{{ post.problem_type }}</p>
+         <p class="text-left text-muted"> {% if post.problem_type == 'education' %}
+                 <img src="../static/education.png" width="25" height="25" alt="">
+                {% elif post.problem_type == 'health' %}
+                     <img src="../static/heart.png" width="25" height="25" alt="">
+                {% elif post.problem_type == 'environment' %}
+                     <img src="../static/tree.png" width="25" height="25" alt="">
+                {% elif post.problem_type == 'economics' %}
+                     <img src="../static/money.png" width="25" height="25" alt="">
+                {% elif post.problem_type == 'society' %}
+                     <img src="../static/people.png" width="25" height="25" alt="">
+                {% endif %}{{ sentence_case(post.problem_type) }}</p>
          <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "35" height = "35" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
          <p></p>
          <img class="text-center rounded responsive1" alt="" src="{{ url_for('static', filename='blog_pics/'+ post.blog_image) }}" width = "495" height = "250">

@@ -32,7 +32,7 @@ def index():
 
 
     if request.method == 'POST':
-        id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
+        id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
 

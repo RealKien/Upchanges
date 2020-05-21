@@ -1,0 +1,16 @@
+
+
+@media screen and (min-width: 600px){
+    .responsive1{
+    width: 495px;
+    height: 250px;
+}
+
+}
+
+@media screen and (max-width: 600px){
+    .responsive1{
+    width: 100%;
+    height: 250px;
+}
+}

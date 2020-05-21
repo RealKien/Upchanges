@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <link href="../static/css/blogsearch.css" rel="stylesheet" type="text/css">
+<br>
+    <h4>Search results<span class="iconify" data-icon="icons8:search" data-inline="false"></span>: <small>{{ num_posts }} posts</small></h4>
+    <p>{{ no_posts }}</p>
+
+
+
+{% if not many_posts %}
+   <p> Couldn't find relating problems with your search </p>
+{% else %}
+  <div class="container row row-cols-1 row-cols-md-2 text-center">
+  {% for post in many_posts.items %}
+    <div class="card border-dark mb-3 " style="width: 20rem;">
+     <div class="card-body ">
+         <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "35" height = "35" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
+         <p></p>
+         <img class="text-center rounded responsive1" alt="" src="{{ url_for('static', filename='blog_pics/'+ post.blog_image) }}" width = "495" height = "250">
+         {# Need caution for post.blog_image on the code above #}
+         <p></p>
+         <h2><a class="card-tittle text-body problem" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}">{{ post.problem_name[0:40]}}..</a></h2>
+         <p class="card-text">{{ post.text[0:100] }}</p>
+         <p><small class="text-muted">Posted on: {{ post.date.strftime('%Y-%m-%d') }}</small></p>
+         <a class="btn btn-warning" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}">Read more</a>
+     </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
+
+
+{% endblock %}

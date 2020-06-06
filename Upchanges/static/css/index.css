@@ -13,6 +13,15 @@ width: 100%;
     height: 250px;
 }
 
+.responsive3{
+    width: 100%;
+    height: 350px;
+}
+
+
+
+
+
 
 
 @media screen and (min-width: 600px){

@@ -19,7 +19,7 @@
                      <img src="../static/money.png" width="25" height="25" alt="">
                 {% elif post.problem_type == 'society' %}
                      <img src="../static/people.png" width="25" height="25" alt="">
-                {% endif %}{{ sentence_case(post.problem_type) }}</p>
+                {% endif %}{{ sentence_case(post.problem_type) }}| Location: {{ post.country }}</p>
     <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "40" height = "40" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
     <h1>{{ post.problem_name }}</h1>
     <p><small class="text-muted">Posted on: {{ post.date.strftime('%B, %d, %Y') }}</small></p>

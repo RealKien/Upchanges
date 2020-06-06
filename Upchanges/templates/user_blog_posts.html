@@ -12,10 +12,25 @@
 
     </div>
 
+ {% macro sentence_case(text) %}
+    {{ text[0]|upper}}{{text[1:] }}
+ {% endmacro %}
+
  <div class="container row row-cols-1 row-cols-md-2 text-center">
          {% for posts in blog_posts.items %}
           <div class="card border-dark mb-3 ">
           <div class="card-body ">
+              <p class="text-left text-muted"> {% if posts.problem_type == 'education' %}
+                 <img src="../static/education.png" width="25" height="25" alt="">
+                {% elif posts.problem_type == 'health' %}
+                     <img src="../static/heart.png" width="25" height="25" alt="">
+                {% elif posts.problem_type == 'environment' %}
+                     <img src="../static/tree.png" width="25" height="25" alt="">
+                {% elif posts.problem_type == 'economics' %}
+                     <img src="../static/money.png" width="25" height="25" alt="">
+                {% elif posts.problem_type == 'society' %}
+                     <img src="../static/people.png" width="25" height="25" alt="">
+                {% endif %}{{ sentence_case(posts.problem_type) }}| Location: {{ posts.country }}</p>
               <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=home_user.first_name+home_user.middle_name+home_user.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ home_user.profile_image) }}" width = "35" height = "35" alt=""> {{ home_user.first_name}} {{ home_user.middle_name}} {{ home_user.last_name }} </a></h7>
               <p></p>
                  <h2><a class="card-tittle text-body" href="{{ url_for('blog_posts.blog_view',blog_validated_id=posts.blog_id )}}">{{ posts.problem_name }}</a></h2>

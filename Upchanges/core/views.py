@@ -31,26 +31,27 @@ def index():
     form = Blogsearch_form(request.form)
 
 
+
     if request.method == 'POST':
         id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)),(BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
+        country='Earth'
+        return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts, no_posts=no_posts, form=form, country=country)
 
-        return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts, no_posts=no_posts)
 
-
-
+    country='Earth'
     page = request.args.get('page',1,type=int)
     many_posts = BlogPost.query.order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
-    return render_template('index.html', many_posts=many_posts, form=form)
+    return render_template('index.html', many_posts=many_posts, form=form, country=country)
 
 
 @core.route('/education', methods=['GET', 'POST'])
@@ -64,20 +65,20 @@ def education():
         id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)), (BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
-
+        country = 'Earth'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts)
+                           no_posts=no_posts, form=form, country=country)
 
-
-    return render_template('index1.html', many_posts=many_posts, form=form)
+    country = 'Earth'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
 
 @core.route('/health', methods=['GET', 'POST'])
 def health():
@@ -89,20 +90,20 @@ def health():
         id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)), (BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
-
+        country = 'Earth'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts)
+                           no_posts=no_posts, form=form, country=country)
 
-
-    return render_template('index1.html', many_posts=many_posts, form=form)
+    country = 'Earth'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
 
 @core.route('/environment', methods=['GET', 'POST'])
 def environment():
@@ -114,19 +115,19 @@ def environment():
         id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)), (BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
-
+        country = 'Earth'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts)
-
-    return render_template('index1.html', many_posts=many_posts, form=form)
+                           no_posts=no_posts, form=form, country=country)
+    country = 'Earth'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
 
 @core.route('/economics', methods=['GET', 'POST'])
 def economics():
@@ -138,19 +139,19 @@ def economics():
         id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)), (BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
-
+        country = 'Earth'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts)
-
-    return render_template('index1.html', many_posts=many_posts, form=form)
+                           no_posts=no_posts, form=form, country=country)
+    country = 'Earth'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
 
 @core.route('/society', methods=['GET', 'POST'])
 def society():
@@ -159,23 +160,29 @@ def society():
     many_posts = BlogPost.query.filter(BlogPost.problem_type.ilike('society')).order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
 
     if request.method == 'POST':
-        id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id ).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
+        id_list = [i[0] for i in BlogPost.query.with_entities(BlogPost.blog_id).filter(BlogPost.problem_name.ilike("%" + form.search.data  + "%")).all()] #This code on the left side doesn't do anything, it's just there to help me to learn to code
 
         page = request.args.get('page', 1, type=int)
-
-        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike("%" + form.search.data + "%")),(BlogPost.text.ilike("%" + form.search.data + "%")))).order_by(BlogPost.date.desc())
+        search_string = "%" + "%".join(form.search.data.split()) + "%"
+        many_posts0 = BlogPost.query.filter(or_((BlogPost.problem_name.ilike(search_string)), (BlogPost.text.ilike(search_string)))).order_by(BlogPost.date.desc())
         many_posts = many_posts0.paginate(page=page, per_page=10)
         num_posts = many_posts0.count()
         if num_posts == 0:
             no_posts="Couldn't find relating problems"
         else:
             no_posts=''
-
+        country = 'Earth'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts)
+                           no_posts=no_posts, form=form, country=country)
+    country = 'Earth'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
 
-    return render_template('index1.html', many_posts=many_posts, form=form)
+
+
+
+
 
 @core.route('/info')
 def info():
-    return render_template('info.html')
+    country = 'Earth'
+    return render_template('info.html', country=country)

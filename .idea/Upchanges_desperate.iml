@@ -26,6 +26,9 @@
       <list>
         <option value="$MODULE_DIR$/Upchanges/templates" />
         <option value="$MODULE_DIR$/Upchanges/templates/error_pages" />
+        <option value="$MODULE_DIR$/Upchanges/templates/japan" />
+        <option value="$MODULE_DIR$/Upchanges/templates/vietnam" />
+        <option value="$MODULE_DIR$/Upchanges/templates/usa" />
       </list>
     </option>
   </component>

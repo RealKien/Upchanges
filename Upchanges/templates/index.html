@@ -7,38 +7,153 @@
 
 
 
-<div id="cool">
-<br>
-    <br>
-    <img class="mx-auto d-block img-fluid" src="../static/logo7.png" width="400" height="120" alt="Responsive image">
-<h3 class="text-center responsive2">~A place where people connect through meaningful actions~</h3>
-    <br>
-    <br>
-    <br>
-    <br>
-<br>
-<br>
+{#<div id="cool">#}
 
 
+    <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-interval="5000">
+                      <img class="mx-auto d-block responsive3" src="../static/index1.png" width="1100" height="400" alt="">
+            </div>
+            <div class="carousel-item" data-interval="5000">
+              <img  src="../static/index2.png" class="mx-auto d-block responsive3" width="1100" height="400" alt="" >
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+          <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+    </div>
+{#<h3 class="text-center responsive2">~A place where people connect through meaningful actions~</h3>#}
 
 
-
-</div>
+{#</div>#}
 
 <br>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
 <div class="dropdown">
   <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Filter type of problems
+             {% if country=='Vietnam' %}
+             Lọc loại vấn đề
+             {% elif country=='Japan' %}
+             問題の種類の絞り込み
+             {% else %}
+             Filter type of problems
+              {% endif %}
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{{ url_for('core.education')}}">Education <span class="iconify" data-icon="carbon:education" data-inline="false"></span></a>
-    <a class="dropdown-item" href="{{ url_for('core.health')}}">Health <span class="iconify" data-icon="ant-design:heart-outlined" data-inline="false"></span></a>
-    <a class="dropdown-item" href="{{ url_for('core.environment') }}">Environment <span class="iconify" data-icon="emojione-monotone:deciduous-tree" data-inline="false"></span></a>
-    <a class="dropdown-item" href="{{ url_for('core.economics') }}">Economics <span class="iconify" data-icon="emojione-monotone:money-with-wings" data-inline="false"></span></a>
-    <a class="dropdown-item" href="{{ url_for('core.society') }}">Society <span class="iconify" data-icon="bi:people" data-inline="false"></span></a>
-    <a class="dropdown-item" href="{{ url_for('core.index')}}">All Types</a>
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.education')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.education') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.education') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.education') }}
+              {% endif %}">
+             {% if country=='Vietnam' %}
+             Giáo dục
+             {% elif country=='Japan' %}
+             教育
+             {% else %}
+             Education
+              {% endif %} <span class="iconify" data-icon="carbon:education" data-inline="false"></span></a>
+
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.health')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.health') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.health') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.health') }}
+              {% endif %}">
+             {% if country=='Vietnam' %}
+             Sức khoẻ
+             {% elif country=='Japan' %}
+             健康
+             {% else %}
+             Health
+              {% endif %} <span class="iconify" data-icon="ant-design:heart-outlined" data-inline="false"></span></a>
+
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.environment')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.environment') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.environment') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.environment') }}
+              {% endif %}">
+             {% if country=='Vietnam' %}
+             Môi trường
+             {% elif country=='Japan' %}
+             環境
+             {% else %}
+             Environment
+              {% endif %} <span class="iconify" data-icon="emojione-monotone:deciduous-tree" data-inline="false"></span></a>
+
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.economics')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.economics') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.economics') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.economics') }}
+              {% endif %}">
+            {% if country=='Vietnam' %}
+             Kinh tế
+             {% elif country=='Japan' %}
+             経済
+             {% else %}
+              Economics
+              {% endif %} <span class="iconify" data-icon="emojione-monotone:money-with-wings" data-inline="false"></span></a>
+
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.society')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.society') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.society') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.society') }}
+              {% endif %}">
+            {% if country=='Vietnam' %}
+             Xã hội
+             {% elif country=='Japan' %}
+             社会
+             {% else %}
+             Society
+              {% endif %} <span class="iconify" data-icon="bi:people" data-inline="false"></span></a>
+
+    <a class="dropdown-item"
+       href="{% if country=='Earth' %}
+             {{ url_for('core.index')}}
+             {% elif country=='Vietnam' %}
+             {{ url_for('vn_core.index') }}
+             {% elif country=='Japan' %}
+             {{ url_for('jp_core.index') }}
+             {% elif country=='USA' %}
+             {{ url_for('usa_core.index') }}
+              {% endif %}">
+            {% if country=='Vietnam' %}
+             Tất cả các loại
+             {% elif country=='Japan' %}
+             全てのタイプ
+             {% else %}
+             All types
+              {% endif %}</a>
   </div>
 </div>
 
@@ -46,28 +161,50 @@
         <a class="nav-link" href="#"></a>
       </p>
 
-{#{% with messages = get_flashed_messages() %}#}
-{#  {% if messages %}#}
-{#    <ul class=flashes>#}
-{#    {% for message in messages %}#}
-{#      <li>{{ message }}</li>#}
-{#    {% endfor %}#}
-{#    </ul>#}
-{#  {% endif %}#}
-{#{% endwith %}#}
 
 
         <form class="form-inline my-2 my-lg-0 text-right" method=POST>
-            {{ form.search(placeholder="Search for problems")}}
+            {% if country=='Vietnam' %}
+             {{ form.search(placeholder="Tìm vấn đề...")}}
+             {% elif country=='Japan' %}
+             {{ form.search(placeholder="問題を探す...")}}
+             {% else %}
+             {{ form.search(placeholder="Search for problems...")}}
+              {% endif %}
            <input type=submit value=Search>
         </form>
 
+      <p class="nav-item">
+        <a class="nav-link" href="#"></a>
+      </p>
 
-       <p class="nav-item" >
-        <a class="nav-link disabled" href="#">Country:<img class=" rounded mx-auto d-block" src="../static/vietnam_flag.png"  alt="" height="25"></a>
-       </p>
 
-       <button href="#" type="button" class="btn btn-outline-dark">Change country</button>
+
+      <div class="dropdown">
+       <button href="#" type="button" class="btn btn-outline-dark" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% if country== 'Vietnam' %}
+            Quốc gia : Vietnam
+            <img class="rounded mx-auto d-block" src="../static/countryflags/vietnam_flag.png" alt="" height="25" width="40">
+            {% elif country== 'Japan' %}
+             国: Japan
+             <img class=" rounded mx-auto d-block" src="../static/countryflags/japan.png" alt="" height="25" width="40">
+             {% elif country=='USA' %}
+               Country: United States of America
+                <img class=" rounded mx-auto d-block" src="../static/countryflags/united states.jpg" alt="" height="25" width="40">
+            {% elif country=='Earth' %}
+            Country: Earth
+            <img class=" rounded mx-auto d-block" src="../static/countryflags/earth.png" alt="" height="25" width="40">
+            {% endif %}<span class="iconify" data-icon="si-glyph:arrow-change" data-inline="false"></span>
+       </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{ url_for('vn_core.index')}}">Vietnam <span class="iconify" data-icon="openmoji:flag-vietnam" data-inline="false"></span></a>
+                <a class="dropdown-item" href="{{ url_for('jp_core.index') }}">Japan <span class="iconify" data-icon="openmoji:flag-japan" data-inline="false"></span></a>
+                <a class="dropdown-item" href="{{ url_for('usa_core.index') }}">United States of America <span class="iconify" data-icon="openmoji:flag-united-states" data-inline="false"></span></a>
+                <a class="dropdown-item" href="{{ url_for('core.index') }}">Earth/All countries <span class="iconify" data-icon="ion:earth" data-inline="false"></span></a>
+          </div>
+      </div>
+
+
 
 </nav>
 
@@ -85,15 +222,63 @@
      <div class="card-body ">
          <p class="text-left text-muted"> {% if post.problem_type == 'education' %}
                  <img src="../static/education.png" width="25" height="25" alt="">
+             {% if country=='Vietnam' %}
+             Giáo dục
+             {% elif country=='Japan' %}
+             教育
+             {% else %}
+             Education
+              {% endif %}
+
+
                 {% elif post.problem_type == 'health' %}
                      <img src="../static/heart.png" width="25" height="25" alt="">
+             {% if country=='Vietnam' %}
+             Sức khoẻ
+             {% elif country=='Japan' %}
+             健康
+             {% else %}
+             Health
+              {% endif %}
+
                 {% elif post.problem_type == 'environment' %}
                      <img src="../static/tree.png" width="25" height="25" alt="">
+             {% if country=='Vietnam' %}
+             Môi trường
+             {% elif country=='Japan' %}
+             環境
+             {% else %}
+             Environment
+              {% endif %}
+
                 {% elif post.problem_type == 'economics' %}
                      <img src="../static/money.png" width="25" height="25" alt="">
+             {% if country=='Vietnam' %}
+             Kinh tế
+             {% elif country=='Japan' %}
+             経済
+             {% else %}
+              Economics
+              {% endif %}
+
                 {% elif post.problem_type == 'society' %}
                      <img src="../static/people.png" width="25" height="25" alt="">
-                {% endif %}{{ sentence_case(post.problem_type) }}</p>
+             {% if country=='Vietnam' %}
+             Xã hội
+             {% elif country=='Japan' %}
+             社会
+             {% else %}
+             Society
+              {% endif %}
+
+                {% endif %} |
+             {% if country=='Vietnam' %}
+             Địa điểm
+             {% elif country=='Japan' %}
+             場所
+             {% else %}
+             Location
+              {% endif %}: {{ post.country }}</p>
 
          <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "35" height = "35" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
          <p></p>
@@ -133,4 +318,6 @@
      </nav>
 
 {% endblock %}
+
+
 

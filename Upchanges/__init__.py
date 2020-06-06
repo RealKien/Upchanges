@@ -35,6 +35,9 @@ login_manager.login_view = 'users.login'
 
 # IMPORTING BLUEPRINTS FROM VIEWS.PY FILE IN OTHER FOLDERS
 from Upchanges.core.views import core
+from Upchanges.core.vn_views import vn_core
+from Upchanges.core.jp_views import jp_core
+from Upchanges.core.usa_views import usa_core
 from Upchanges.users.views import users
 from Upchanges.error_pages.handlers import error_pages
 from Upchanges.blog_posts.views import blog_posts
@@ -43,3 +46,6 @@ app.register_blueprint(core)
 app.register_blueprint(users)
 app.register_blueprint(error_pages)
 app.register_blueprint(blog_posts)
+app.register_blueprint(vn_core)
+app.register_blueprint(jp_core)
+app.register_blueprint(usa_core)

@@ -20,7 +20,8 @@ def create_post():
                                   text=form.text.data,
                                   user_id=current_user.id,
                                   blog_image=add_blog_pic(form.blog_image.data, form.problem_name.data+str(current_user.id)),
-                                  prolem_type=form.problem_type.data) #Probaly,.choices is wrong
+                                  problem_type=form.problem_type.data,
+                                  country=form.country.data)
 
 
         blog_image = url_for('static', filename='profile_pics/' + blog_validated.blog_image)
@@ -67,6 +68,7 @@ def update(blog_validated_id):
         blog_update.problem_name = form.problem_name.data
         blog_update.text = form.text.data
         blog_update.problem_type = form.problem_type.data
+        blog_update.country = form.country.data
         db.session.commit()
         flash('Blog Post Updated')
         return redirect(url_for('blog_posts.blog_view',blog_validated_id=blog_update.blog_id, blog_image=url_for('static', filename='blog_pics/' + blog_update.blog_image)))
@@ -76,6 +78,7 @@ def update(blog_validated_id):
         form.text.data = blog_update.text
         form.blog_image.data=blog_update.blog_image
         form.problem_type.data=blog_update.problem_type
+        form.country.data=blog_update.country
 
     return render_template('create_post.html', form=form)
 

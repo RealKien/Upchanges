@@ -41,6 +41,10 @@ from Upchanges.core.usa_views import usa_core
 from Upchanges.users.views import users
 from Upchanges.error_pages.handlers import error_pages
 from Upchanges.blog_posts.views import blog_posts
+from Upchanges.blog_posts.vn_views import vn_blog_posts
+from Upchanges.blog_posts.jp_views import jp_blog_posts
+from Upchanges.blog_posts.usa_views import usa_blog_posts
+from Upchanges.blog_info.views import blog_info
 
 app.register_blueprint(core)
 app.register_blueprint(users)
@@ -49,3 +53,7 @@ app.register_blueprint(blog_posts)
 app.register_blueprint(vn_core)
 app.register_blueprint(jp_core)
 app.register_blueprint(usa_core)
+app.register_blueprint(vn_blog_posts)
+app.register_blueprint(jp_blog_posts)
+app.register_blueprint(usa_blog_posts)
+app.register_blueprint(blog_info)

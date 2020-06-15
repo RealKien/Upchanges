@@ -7,9 +7,6 @@
 
 
 
-{#<div id="cool">#}
-
-
     <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" data-interval="5000">
@@ -183,10 +180,10 @@
       <div class="dropdown">
        <button href="#" type="button" class="btn btn-outline-dark" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {% if country== 'Vietnam' %}
-            Quốc gia : Vietnam
+            Quốc gia : Việt Nam
             <img class="rounded mx-auto d-block" src="../static/countryflags/vietnam_flag.png" alt="" height="25" width="40">
             {% elif country== 'Japan' %}
-             国: Japan
+             国: 日本
              <img class=" rounded mx-auto d-block" src="../static/countryflags/japan.png" alt="" height="25" width="40">
              {% elif country=='USA' %}
                Country: United States of America
@@ -197,8 +194,8 @@
             {% endif %}<span class="iconify" data-icon="si-glyph:arrow-change" data-inline="false"></span>
        </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ url_for('vn_core.index')}}">Vietnam <span class="iconify" data-icon="openmoji:flag-vietnam" data-inline="false"></span></a>
-                <a class="dropdown-item" href="{{ url_for('jp_core.index') }}">Japan <span class="iconify" data-icon="openmoji:flag-japan" data-inline="false"></span></a>
+              <a class="dropdown-item" href="{{ url_for('vn_core.index')}}">Việt Nam <span class="iconify" data-icon="openmoji:flag-vietnam" data-inline="false"></span></a>
+                <a class="dropdown-item" href="{{ url_for('jp_core.index') }}">日本 <span class="iconify" data-icon="openmoji:flag-japan" data-inline="false"></span></a>
                 <a class="dropdown-item" href="{{ url_for('usa_core.index') }}">United States of America <span class="iconify" data-icon="openmoji:flag-united-states" data-inline="false"></span></a>
                 <a class="dropdown-item" href="{{ url_for('core.index') }}">Earth/All countries <span class="iconify" data-icon="ion:earth" data-inline="false"></span></a>
           </div>
@@ -263,7 +260,7 @@
 
                 {% elif post.problem_type == 'society' %}
                      <img src="../static/people.png" width="25" height="25" alt="">
-             {% if country=='Vietnam' %}
+             {% if country=='Vietnam' %}data
              Xã hội
              {% elif country=='Japan' %}
              社会
@@ -273,22 +270,56 @@
 
                 {% endif %} |
              {% if country=='Vietnam' %}
-             Địa điểm
+             Địa điểm: Việt Nam
              {% elif country=='Japan' %}
-             場所
-             {% else %}
-             Location
-              {% endif %}: {{ post.country }}</p>
+             場所: 日本
+             {% elif country== 'USA' %}
+             Location: United States of America
+                 {% else %}
+                 Location: {{ post.country }}
+              {% endif %}</p>
 
          <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post.creator.first_name+post.creator.middle_name+post.creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post.creator.profile_image) }}" width = "35" height = "35" alt=""> {{ post.creator.first_name}} {{ post.creator.middle_name }} {{ post.creator.last_name }}</a></h7>
          <p></p>
          <img class="text-center rounded responsive1" alt="" src="{{ url_for('static', filename='blog_pics/'+ post.blog_image) }}" width = "495" height = "250">
          {# Need caution for post.blog_image on the code above #}
          <p></p>
-         <h2><a class="card-tittle text-body problem" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}">{{ post.problem_name[0:40]}}..</a></h2>
+         <h2><a class="card-tittle text-body problem"
+                href="{% if country == 'Vietnam' %}
+                      {{ url_for('vn_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% elif country == 'Japan' %}
+                      {{ url_for('jp_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% elif country == 'USA' %}
+                      {{ url_for('usa_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% else %}
+                      {{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% endif %}">
+             {{ post.problem_name[0:40]}}..</a></h2>
          <p class="card-text">{{ post.text[0:100] }}</p>
-         <p><small class="text-muted">Posted on: {{ post.date.strftime('%Y-%m-%d') }}</small></p>
-         <a class="btn btn-warning" href="{{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}">Read more</a>
+         <p><small class="text-muted">
+             {% if country=='Vietnam' %}
+             Đăng vào:
+             {% elif country=='Japan' %}
+             投稿する日:
+                 {% else %}
+                 Posted on:
+              {% endif %} {{ post.date.strftime('%Y-%m-%d') }}</small></p>
+         <a class="btn btn-warning" href="{% if country == 'Vietnam' %}
+                      {{ url_for('vn_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% elif country == 'Japan' %}
+                      {{ url_for('jp_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% elif country == 'USA' %}
+                      {{ url_for('usa_blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% else %}
+                      {{ url_for('blog_posts.blog_view', blog_validated_id=post.blog_id) }}
+                      {% endif %}">
+             {% if country=='Vietnam' %}
+             Đọc thêm
+             {% elif country=='Japan' %}
+             もっと読む
+                 {% else %}
+                 Read more
+              {% endif %}</a>
      </div>
 
 

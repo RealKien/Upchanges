@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <form method="POST">
     {{ form2.hidden_tag() }}<br>
     {{ form2.email.label }} {{ form2.email(class="form-group form-control") }} <br>

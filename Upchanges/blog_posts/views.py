@@ -57,22 +57,27 @@ def blog_view(blog_validated_id):
         page = request.args.get('page', 1, type=int)
         comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
         comment_blogs = comment_blogs1.paginate(page=page,per_page=2)
+        comment_blogs_num = comment_blogs1.count()
 
         return redirect(url_for('blog_posts.blog_view', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
                            post=blog_view,
-                           problem_type= blog_view.problem_type, form2=form2,comment_blogs=comment_blogs, comment_text=blog_comment_validated.text, blog_validated_id=blog_validated_id, page=page))
+                           problem_type= blog_view.problem_type, form2=form2,comment_blogs=comment_blogs, comment_text=blog_comment_validated.text, blog_validated_id=blog_validated_id, page=page,
+                                comment_blogs_num=comment_blogs_num))
 
 
     page = request.args.get('page', 1, type=int)
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
     comment_blogs = comment_blogs1.paginate(page=page, per_page=2)
+    comment_blogs_num = comment_blogs1.count()
     return render_template('blog_view.html', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
                            post=blog_view,
-                           problem_type= blog_view.problem_type, form2=form2, comment_blogs=comment_blogs, blog_validated_id=blog_validated_id, page=page)
+                           problem_type= blog_view.problem_type, form2=form2, comment_blogs=comment_blogs, blog_validated_id=blog_validated_id, page=page,
+                           comment_blogs_num=comment_blogs_num)
+
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)
 
 
@@ -122,13 +127,84 @@ def update(blog_validated_id):
 def delete_post(blog_validated_id):
 
     blog_delete = BlogPost.query.get_or_404(blog_validated_id)
+    comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
+    comment_blogs_num = comment_blogs1.count()
+
 
     if blog_delete.creator != current_user: #if creator of the blog is not the current user
         abort(403)  #show 403 no permission page
+    if comment_blogs_num >= 2:
+        abort(403)
 
     db.session.delete(blog_delete)
     db.session.commit()
     flash('Blog Post Deleted')
     return redirect(url_for('core.index'))
 
+
+
+
+
+@blog_posts.route('/<int:blog_validated_id>/<int:blog_info_id>/update', methods=['GET', 'POST'])
+@login_required
+def blog_info_update(blog_validated_id, blog_info_id):
+
+    blog_view = BlogPost.query.get_or_404(blog_validated_id)
+    blog_info_update = BlogInfo.query.get_or_404(blog_info_id)
+
+    page = request.args.get('page', 1, type=int)
+    comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
+    comment_blogs = comment_blogs1.paginate(page=page, per_page=2)
+    comment_blogs_num = comment_blogs1.count()
+
+    if blog_info_update.comment!= current_user:
+        abort(403)
+
+    form2 = BlogInfoForm()
+
+    if form2.validate_on_submit():
+        blog_info_update.text=form2.text.data
+        db.session.commit()
+        flash('Blog info post is updated')
+        return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id, form2=form2, comment_blogs=comment_blogs, page=page,
+                           comment_blogs_num=comment_blogs_num,
+                                blog_info_id=blog_info_update.blog_info_id,
+                                problem_name=blog_view.problem_name,
+                                date=blog_view.date,
+                                blog_image=blog_view.blog_image,
+                                post=blog_view,
+                                problem_type=blog_view.problem_type))
+
+    elif request.method == 'GET':
+        form2.text.data = blog_info_update.text
+
+    return render_template('blog_view.html', blog_validated_id=blog_validated_id, form2=form2, comment_blogs=comment_blogs, page=page,
+                           comment_blogs_num=comment_blogs_num,
+                                blog_info_id=blog_info_update.blog_info_id,
+                                problem_name=blog_view.problem_name,
+                                date=blog_view.date,
+                                blog_image=blog_view.blog_image,
+                                post=blog_view,
+                                problem_type=blog_view.problem_type)
+
+
+@blog_posts.route('/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])
+@login_required
+def blog_info_delete(blog_info_id,blog_validated_id):
+
+    blog_info_delete = BlogInfo.query.get_or_404(blog_info_id)
+    comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
+    comment_blogs_num = comment_blogs1.count()
+
+
+    if blog_info_delete.comment != current_user:
+        abort(403)
+
+    if comment_blogs_num >= 2:
+        abort(403)
+
+    db.session.delete(blog_info_delete)
+    db.session.commit()
+    flash('Blog info comment is deleted')
+    return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id))
 

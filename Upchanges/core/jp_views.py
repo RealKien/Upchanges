@@ -33,7 +33,7 @@ def index():
     country='Japan'
     page = request.args.get('page',1,type=int)
     many_posts = BlogPost.query.filter(BlogPost.country.ilike('Japan')).order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
-    return render_template('index.html', many_posts=many_posts, form=form, country= country)
+    return render_template('index.html', many_posts=many_posts, form=form, country=country)
 
 
 @jp_core.route('/japan/education', methods=['GET', 'POST'])
@@ -56,11 +56,13 @@ def education():
         else:
             no_posts=''
         country = 'Japan'
+        problem_type = 'education'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form, country=country)
+                           no_posts=no_posts, form=form, country=country, problem_type=problem_type)
 
     country = 'Japan'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'education'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @jp_core.route('/japan/health', methods=['GET', 'POST'])
 def health():
@@ -81,11 +83,13 @@ def health():
         else:
             no_posts=''
         country = 'Japan'
+        problem_type = 'health'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form, country=country)
+                           no_posts=no_posts, form=form, country=country, problem_type=problem_type)
 
     country = 'Japan'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'health'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 
 @jp_core.route('/japan/environment', methods=['GET', 'POST'])
@@ -107,11 +111,13 @@ def environment():
         else:
             no_posts=''
         country = 'Japan'
+        problem_type = 'environment'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form,country=country)
+                           no_posts=no_posts, form=form,country=country, problem_type=problem_type)
 
     country = 'Japan'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'environment'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @jp_core.route('/japan/economics', methods=['GET', 'POST'])
 def economics():
@@ -132,10 +138,12 @@ def economics():
         else:
             no_posts = ''
         country = 'Japan'
+        problem_type = 'environment'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                               no_posts=no_posts, form=form, country=country)
+                               no_posts=no_posts, form=form, country=country, problem_type=problem_type)
     country = 'Japan'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'economics'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @jp_core.route('/japan/society', methods=['GET', 'POST'])
 def society():
@@ -157,10 +165,12 @@ def society():
         else:
             no_posts = ''
         country = 'Japan'
+        problem_type = 'society'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                               no_posts=no_posts, form=form, country=country)
+                               no_posts=no_posts, form=form, country=country, problem_type=problem_type)
     country = 'Japan'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'society'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 
 

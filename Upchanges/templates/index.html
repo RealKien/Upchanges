@@ -334,17 +334,74 @@
 
 <nav aria-label="Page navigation example">
          <ul class="pagination justify-content-center">
+
             {% for page_num in many_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-                {% if many_posts.page==page_num %}
-                    <li class='page-item disabled'>
-                    <a class="page-link" href="{{ url_for('core.index', page=page_num)}}">{{ page_num }}</a>
+
+              {% if page_num %}
+                    {% if many_posts.page==page_num %}
+                        {% if many_posts.page > 1 %}
+                    <li class="page-item">
+                      <a class="page-link" href="{% if country == 'Vietnam' %}
+                          {{ url_for('vn_core.index', page=(page_num-1))}}
+                          {% elif country == 'Japan' %}
+                          {{ url_for('jp_core.index', page=(page_num-1))}}
+                          {% elif country == 'USA' %}
+                          {{ url_for('usa_core.index', page=(page_num-1))}}
+                            {% else %}
+                             {{ url_for('core.index', page=(page_num-1))}}
+                             {% endif %}"
+                         aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
                     </li>
+
+                    {% endif %}
+                        <li class='page-item disabled'>
+                        <a class="page-link" href="{% if country == 'Vietnam' %}
+                          {{ url_for('vn_core.index', page=page_num)}}
+                          {% elif country == 'Japan' %}
+                          {{ url_for('jp_core.index', page=page_num)}}
+                          {% elif country == 'USA' %}
+                          {{ url_for('usa_core.index', page=page_num)}}
+                            {% else %}
+                             {{ url_for('core.index', page=page_num)}}
+                              {% endif %}" >
+                            {{ page_num }}</a>
+                        </li>
+
+                        <li class="page-item">
+                          <a class="page-link" href="{% if country == 'Vietnam' %}
+                          {{ url_for('vn_core.index', page=(page_num + 1))}}
+                          {% elif country == 'Japan' %}
+                          {{ url_for('jp_core.index', page=(page_num + 1))}}
+                          {% elif country == 'USA' %}
+                          {{ url_for('usa_core.index', page=(page_num + 1))}}
+                            {% else %}
+                             {{ url_for('core.index', page=(page_num + 1))}}
+                              {% endif %}"
+                             aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                    {% else %}
+                        <li class='page-item'>
+                        <a class="page-link" href="{% if country == 'Vietnam' %}
+                          {{ url_for('vn_core.index', page=page_num)}}
+                          {% elif country == 'Japan' %}
+                          {{ url_for('jp_core.index', page=page_num)}}
+                          {% elif country == 'USA' %}
+                          {{ url_for('usa_core.index', page=page_num)}}
+                            {% else %}
+                             {{ url_for('core.index', page=page_num)}}
+                          {% endif %}">
+                                {{ page_num }}</a>
+                        </li>
+                    {% endif %}
+
                 {% else %}
-                    <li class='page-item'>
-                    <a class="page-link" href="{{ url_for('core.index', page=page_num)}}">{{ page_num }}</a>
-                    </li>
-                {% endif %}
-             {% endfor %}
+{#                  <a href="{{ url_for('core.index') }}"><span class="iconify border-top border-bottom" data-icon="ant-design:home-filled" data-inline="false" ></span></a>#}
+              {% endif %}
+            {% endfor %}
           </ul>
      </nav>
 

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="jumbotron">
+      <form id="form2" method="POST" action="">
+                      {{ form2.hidden_tag() }}
+                      <br>
+                      {{ form2.text(placeholder="Add info about this problem...", id="comment_form") }}
+                      {{ form2.comment_submit(class="btn btn-warning btn-sm") }}
+                  </form>
+    </div>
+
+
+{% endblock %}

@@ -56,11 +56,13 @@ def education():
         else:
             no_posts=''
         country = 'USA'
+        problem_type = 'education'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form, country=country)
+                           no_posts=no_posts, form=form, country=country, problem_type=problem_type)
 
     country = 'USA'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'education'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @usa_core.route('/usa/health', methods=['GET', 'POST'])
 def health():
@@ -81,11 +83,13 @@ def health():
         else:
             no_posts=''
         country = 'USA'
+        problem_type = 'health'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form, country=country)
+                           no_posts=no_posts, form=form, country=country, problem_type=problem_type)
 
     country = 'USA'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'health'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 
 @usa_core.route('/usa/environment', methods=['GET', 'POST'])
@@ -107,11 +111,13 @@ def environment():
         else:
             no_posts=''
         country = 'USA'
+        problem_type = 'environment'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                           no_posts=no_posts, form=form, country=country)
+                           no_posts=no_posts, form=form, country=country, problem_type=problem_type)
 
     country = 'USA'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'environment'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @usa_core.route('/usa/economics', methods=['GET', 'POST'])
 def economics():
@@ -131,10 +137,12 @@ def economics():
         else:
             no_posts = ''
         country = 'USA'
+        problem_type = 'economics'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                               no_posts=no_posts, form=form, country=country)
+                               no_posts=no_posts, form=form, country=country, problem_type=problem_type)
     country = 'USA'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'economics'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 @usa_core.route('/usa/society', methods=['GET', 'POST'])
 def society():
@@ -156,10 +164,12 @@ def society():
         else:
             no_posts = ''
         country = 'USA'
+        problem_type = 'economics'
         return render_template('blog_search_result.html', id_list=id_list, many_posts=many_posts, num_posts=num_posts,
-                               no_posts=no_posts, form=form, country=country)
+                               no_posts=no_posts, form=form, country=country, problem_type=problem_type)
     country = 'USA'
-    return render_template('index1.html', many_posts=many_posts, form=form, country=country)
+    problem_type = 'society'
+    return render_template('index1.html', many_posts=many_posts, form=form, country=country, problem_type=problem_type)
 
 
 

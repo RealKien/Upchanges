@@ -5,6 +5,7 @@ from Upchanges.models import BlogPost, BlogInfo
 from Upchanges.blog_posts.forms import BlogPostForm
 from Upchanges.blog_info.forms import BlogInfoForm
 from Upchanges.users.picture_handler import add_blog_pic
+from sqlalchemy import and_
 
 
 blog_posts = Blueprint('blog_posts',__name__)
@@ -50,22 +51,34 @@ def blog_view(blog_validated_id):
         blog_comment_validated = BlogInfo(text=form2.text.data,
                                           user_id=current_user.id,
                                           blog_post_id=blog_validated_id)
-        db.session.add(blog_comment_validated)
-        db.session.commit()
-        flash("Blog's comment added")
+        blog_info_check0 = BlogInfo.query.filter(and_(BlogInfo.user_id.ilike(blog_comment_validated.user_id)),(BlogInfo.blog_post_id.ilike(blog_validated_id)))
+        blog_info_check = blog_info_check0.count()
+        if blog_info_check >= 1:
+            abort(403)
+        else:
+            db.session.add(blog_comment_validated)
+            db.session.commit()
+            flash("Blog's comment added")
 
-        page = request.args.get('page', 1, type=int)
-        comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
-        comment_blogs = comment_blogs1.paginate(page=page,per_page=2)
-        comment_blogs_num = comment_blogs1.count()
+            page = request.args.get('page', 1, type=int)
+            comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
+            comment_blogs = comment_blogs1.paginate(page=page,per_page=2)
+            comment_blogs_num = comment_blogs1.count()
 
-        return redirect(url_for('blog_posts.blog_view', problem_name=blog_view.problem_name,
-                           date=blog_view.date,
-                           blog_image=blog_view.blog_image,
-                           post=blog_view,
-                           problem_type= blog_view.problem_type, form2=form2,comment_blogs=comment_blogs, comment_text=blog_comment_validated.text, blog_validated_id=blog_validated_id, page=page,
-                                comment_blogs_num=comment_blogs_num))
+            return redirect(url_for('blog_posts.blog_view', problem_name=blog_view.problem_name,
+                               date=blog_view.date,
+                               blog_image=blog_view.blog_image,
+                               post=blog_view,
+                               problem_type= blog_view.problem_type, form2=form2,comment_blogs=comment_blogs, comment_text=blog_comment_validated.text, blog_validated_id=blog_validated_id, page=page,
+                                    comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check))
 
+    if current_user.is_authenticated:
+        id_check = current_user.id
+    else:
+        id_check = 0
+
+    blog_info_check0 = BlogInfo.query.filter(and_(BlogInfo.user_id.ilike(id_check)),(BlogInfo.blog_post_id.ilike(blog_validated_id)))
+    blog_info_check = blog_info_check0.count()
 
     page = request.args.get('page', 1, type=int)
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
@@ -76,7 +89,7 @@ def blog_view(blog_validated_id):
                            blog_image=blog_view.blog_image,
                            post=blog_view,
                            problem_type= blog_view.problem_type, form2=form2, comment_blogs=comment_blogs, blog_validated_id=blog_validated_id, page=page,
-                           comment_blogs_num=comment_blogs_num)
+                           comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check, id_check=id_check)
 
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)
 
@@ -152,10 +165,14 @@ def blog_info_update(blog_validated_id, blog_info_id):
     blog_view = BlogPost.query.get_or_404(blog_validated_id)
     blog_info_update = BlogInfo.query.get_or_404(blog_info_id)
 
+
+
     page = request.args.get('page', 1, type=int)
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(BlogInfo.date.desc())
     comment_blogs = comment_blogs1.paginate(page=page, per_page=2)
     comment_blogs_num = comment_blogs1.count()
+
+    update_status = 1 #if update_status=0, form 2 will be hide
 
     if blog_info_update.comment!= current_user:
         abort(403)
@@ -178,6 +195,8 @@ def blog_info_update(blog_validated_id, blog_info_id):
     elif request.method == 'GET':
         form2.text.data = blog_info_update.text
 
+
+
     return render_template('blog_view.html', blog_validated_id=blog_validated_id, form2=form2, comment_blogs=comment_blogs, page=page,
                            comment_blogs_num=comment_blogs_num,
                                 blog_info_id=blog_info_update.blog_info_id,
@@ -185,7 +204,7 @@ def blog_info_update(blog_validated_id, blog_info_id):
                                 date=blog_view.date,
                                 blog_image=blog_view.blog_image,
                                 post=blog_view,
-                                problem_type=blog_view.problem_type)
+                                problem_type=blog_view.problem_type, update_status=update_status)
 
 
 @blog_posts.route('/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])

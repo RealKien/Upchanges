@@ -11,3 +11,8 @@ class BlogPostForm(FlaskForm):
     problem_type = SelectField('Type of Problem', choices=[('education','Education'),('health','Health'),('environment','Environment'),('economics','Economics'),('society','Society')],validators=[DataRequired()])
     country = SelectField('Country location', choices=[('Vietnam', 'Vietnam'), ('Japan', 'Japan'),('United States of America', 'United States of America')], validators=[DataRequired()])
     problem_submit = SubmitField("Post")
+
+
+class BlogIdeaForm(FlaskForm):
+    text2 = TextAreaField('Add your idea', validators=[DataRequired()])
+    idea_submit = SubmitField("Post")

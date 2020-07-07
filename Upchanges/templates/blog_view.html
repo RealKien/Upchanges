@@ -213,9 +213,69 @@
      </nav>
 
     </div>
+<br>
 
 
-</div>
+<h5><img src="{{ url_for('static', filename='Uplike.png') }}" width="30" height="30" alt=""> Ideas to solve this problem:</h5>
+<div class="shadow p-1 bg-white rounded" style="width: 30rem; background-color: #3498db;">
+    {% if id_check == 0 %}
+              <a href="{{ url_for('users.register') }}"><button type="button" id="" class="btn btn-primary btn-sm">Sign up and add your idea <span class="iconify" data-icon="fa-regular:comment" data-inline="false"></span></button></a>
+    {% else %}
+     <button type="button" id="idea_button" class="btn btn-primary btn-sm">Add your idea <span class="iconify" data-icon="fa-regular:comment" data-inline="false"></span></button>
+                      <form id="form3" method="POST" action="">
+                          {{ form3.hidden_tag() }}
+                          <br>
+                          {{ form3.text2(placeholder="Just write some thought...", id="idea_form") }}
+                          {{ form3.idea_submit(class="btn btn-warning btn-sm") }}
+                      </form>
+     {% endif %}
+
+
+
+
+    {% for post3 in ideas.items %}
+        <br>
+        <div class="border rounded">
+        <h7><a class="text-warning" href="{{ url_for('users.user_posts', username=post3.idea_creator.first_name+post3.idea_creator.middle_name+post3.idea_creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post3.idea_creator.profile_image) }}" width = "40" height = "40" alt=""> {{ post3.idea_creator.first_name}} {{ post3.idea_creator.middle_name }} {{ post3.idea_creator.last_name }}</a></h7>
+        <p><small class="text-muted ml-5">
+             {% if country=='Vietnam' %}
+             Đăng vào:
+             {% elif country=='Japan' %}
+             投稿する日:
+                 {% else %}
+                  Posted on:
+              {% endif %} {{ post3.date.strftime('%Y-%m-%d') }}</small></p>
+          <p class="card-text ml-5">{{ post3.text }}</p>
+
+               {% if post3.idea_creator == current_user %}
+                 <a href="{{ url_for('blog_posts.blog_idea_update', blog_validated_id=post3.blog_post_id, blog_idea_id=post3.blog_idea_id) }}"><button class="btn btn-light btn-sm text-muted ">Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
+                {% endif %}
+        </div>
+    {% endfor %}
+
+
+
+<br>
+
+<nav aria-label="Page navigation example">
+         <ul class="pagination ">
+            {% for page_num in ideas.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if comment_blogs.page2==page_num %}
+                    <li class='page-item disabled'>
+                    <a class="page-link" href="{{ url_for('blog_posts.blog_view', page2=page_num, blog_validated_id=blog_validated_id)}}">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class='page-item'>
+                    <a class="page-link" href="{{ url_for('blog_posts.blog_view', page2=page_num, blog_validated_id=blog_validated_id)}}">{{ page_num }}</a>
+                    </li>
+                {% endif %}
+             {% endfor %}
+          </ul>
+     </nav>
+
+
+    </div>
+
 
 
 
@@ -243,7 +303,9 @@
   </div>
 </div>
 
+
 {% endblock %}
 
 
 
+</div>

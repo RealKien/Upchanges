@@ -96,6 +96,7 @@ def blog_view(blog_validated_id):
            ideas = ideas1.paginate(page=page, per_page=2)
            ideas_num = ideas1.count()
 
+
            return redirect(url_for('blog_posts.blog_view',problem_name=blog_view.problem_name,
                                date=blog_view.date,
                                blog_image=blog_view.blog_image,
@@ -127,13 +128,16 @@ def blog_view(blog_validated_id):
         BlogIdea.date.desc())
     ideas = ideas1.paginate(page=page2, per_page=2)
     ideas_num = ideas1.count()
+    print(ideas_num)
+
+    total_num = comment_blogs_num + ideas_num
 
     return render_template('blog_view.html', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
                            post=blog_view,
                            problem_type= blog_view.problem_type, form2=form2, comment_blogs=comment_blogs, blog_validated_id=blog_validated_id, page=page,
-                           comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check, id_check=id_check, form3=form3, blog_idea_check=blog_idea_check,ideas=ideas, ideas_num=ideas_num,page2=page2)
+                           comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check, id_check=id_check, form3=form3, blog_idea_check=blog_idea_check,ideas=ideas, ideas_num=ideas_num,page2=page2, total_num=total_num)
 
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)
 
@@ -224,6 +228,8 @@ def blog_info_update(blog_validated_id, blog_info_id):
     ideas = ideas1.paginate(page=page2, per_page=2)
     ideas_num = ideas1.count()
 
+    total_num = comment_blogs_num+ideas_num
+
     update_status = 1 #if update_status=0, form 2 will be hide
 
     if blog_info_update.comment!= current_user:
@@ -258,7 +264,7 @@ def blog_info_update(blog_validated_id, blog_info_id):
                                 blog_image=blog_view.blog_image,
                                 post=blog_view,
                                 problem_type=blog_view.problem_type, update_status=update_status, form3=form3, page2=page,
-                           ideas=ideas, ideas_num=ideas_num)
+                           ideas=ideas, ideas_num=ideas_num, total_num=total_num)
 
 
 @blog_posts.route('/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])
@@ -268,12 +274,13 @@ def blog_info_delete(blog_info_id,blog_validated_id):
     blog_info_delete = BlogInfo.query.get_or_404(blog_info_id)
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num = comment_blogs1.count()
-
+    comment_blogs2 = BlogIdea.query.filter(BlogIdea.blog_post_id.ilike(blog_validated_id))
+    comment_blogs_num2 = comment_blogs2.count()
 
     if blog_info_delete.comment != current_user:
         abort(403)
 
-    if comment_blogs_num >= 2:
+    if comment_blogs_num >= 2 or comment_blogs_num2 >= 2:
         abort(403)
 
     db.session.delete(blog_info_delete)
@@ -282,8 +289,26 @@ def blog_info_delete(blog_info_id,blog_validated_id):
     return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id))
 
 
+@blog_posts.route('/<int:blog_validated_id>/<int:blog_idea_id>/delete_idea', methods=['GET','POST'])
+@login_required
+def blog_idea_delete(blog_validated_id,blog_idea_id):
 
+    blog_idea_delete = BlogIdea.query.get_or_404(blog_idea_id)
 
+    comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
+    comment_blogs_num = comment_blogs1.count()
+    comment_blogs2 = BlogIdea.query.filter(BlogIdea.blog_post_id.ilike(blog_validated_id))
+    comment_blogs_num2 = comment_blogs2.count()
+
+    if blog_idea_delete.idea_creator != current_user:
+        abort(403)
+    if comment_blogs_num >=2 or comment_blogs_num2 >=2:
+        abort(403)
+
+    db.session.delete(blog_idea_delete)
+    db.session.commit()
+    flash('Blog idea is deleted')
+    return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id))
 
 
 @blog_posts.route('/<int:blog_validated_id>/<int:blog_idea_id>/update_idea', methods=['GET','POST'])
@@ -306,6 +331,8 @@ def blog_idea_update(blog_validated_id,blog_idea_id):
         BlogIdea.date.desc())
     ideas = ideas1.paginate(page=page2, per_page=2)
     ideas_num = ideas1.count()
+
+    total_num = comment_blogs_num+ideas_num
 
     if blog_idea_update.idea_creator != current_user:
         abort(403)
@@ -338,4 +365,4 @@ def blog_idea_update(blog_validated_id,blog_idea_id):
                            blog_image=blog_view.blog_image,
                            post=blog_view,
                            problem_type=blog_view.problem_type, form3=form3, page2=page,
-                           ideas=ideas, ideas_num=ideas_num,blog_idea_id=blog_idea_update.blog_idea_id, idea_post=blog_idea_update)
+                           ideas=ideas, ideas_num=ideas_num,blog_idea_id=blog_idea_update.blog_idea_id, idea_post=blog_idea_update, total_num=total_num)

@@ -126,7 +126,7 @@
                  {% else %}
                  ORIGINAL POST<span class="iconify" data-icon="bi:star" data-inline="false"></span> | Posted on:
               {% endif %} {{ post.date.strftime('%Y-%m-%d') }}</small></p>
-        <p class="card-text ml-5">{{ post.text }}</p>
+        <p class="card-text ml-5 text-break">{{ post.text }}</p>
     {% if post.creator == current_user %}
         <div>
         <a href="{{ url_for('blog_posts.update',blog_validated_id=post.blog_id) }}"><button type="button" class="btn btn-info btn-sm" >Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
@@ -158,10 +158,10 @@
                  {% else %}
                   Posted on:
               {% endif %} {{ post2.date.strftime('%Y-%m-%d') }}</small></p>
-          <p class="card-text ml-5">{{ post2.text }}</p>
+          <p class="card-text ml-5 text-break">{{ post2.text }}</p>
       {% if post2.comment == current_user %}
          <a href="{{ url_for('blog_posts.blog_info_update', blog_validated_id=post2.blog_post_id, blog_info_id=post2.blog_info_id) }}"><button class="btn btn-light btn-sm text-muted ">Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
-          {% if comment_blogs_num >= 2 %}
+          {% if total_num >= 2 %}
 
               {% else %}
                 <button class="btn btn-light btn-sm text-muted" data-toggle="modal" data-target="#del_modal2" >Delete <span class="iconify" data-icon="oi:trash" data-inline="false"></span></button>
@@ -228,9 +228,11 @@
                           {{ form3.text2(placeholder="Just write some thought...", id="idea_form") }}
                           {{ form3.idea_submit(class="btn btn-warning btn-sm") }}
                       </form>
+        {% if ideas_num == 0 %}
+             <br>
+             <h8 class="text-muted">No idea is added yet.</h8>
+            {% endif %}
      {% endif %}
-
-
 
 
     {% for post3 in ideas.items %}
@@ -245,10 +247,15 @@
                  {% else %}
                   Posted on:
               {% endif %} {{ post3.date.strftime('%Y-%m-%d') }}</small></p>
-          <p class="card-text ml-5">{{ post3.text }}</p>
+          <p class="card-text ml-5 text-break">{{ post3.text }}</p>
 
                {% if post3.idea_creator == current_user %}
                  <a href="{{ url_for('blog_posts.blog_idea_update', blog_validated_id=post3.blog_post_id, blog_idea_id=post3.blog_idea_id) }}"><button class="btn btn-light btn-sm text-muted ">Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
+                   {% if total_num >=2 %}
+
+                       {% else %}
+                         <a href="{{ url_for('blog_posts.blog_idea_delete', blog_validated_id=post3.blog_post_id, blog_idea_id=post3.blog_idea_id) }}"><button class="btn btn-light btn-sm text-muted ">Delete <span class="iconify" data-icon="oi:trash" data-inline="false"></span></button></button></a>
+                       {% endif %}
                 {% endif %}
         </div>
     {% endfor %}

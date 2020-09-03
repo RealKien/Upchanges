@@ -4,6 +4,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail, Message
+# from Upchanges.models import MangagePassword
 
 app = Flask(__name__)
 
@@ -16,6 +18,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
+
+mail = Mail(app)
+
+MAIL_USERNAME = '2022.kien.letrung@uwcisak.jp'
+MAIL_PASSWORD = 'bibopyeudau'
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+# connect_password = MangagePassword.query(1)
+# mail_admin_password = connect_password.password
+# print(mail_admin_password)         #Need to find a way to safely decrypt my password in a table and let this __init__.py read it and be able to log in to my Gmail account
 
 @app.after_request
 def add_header(response):

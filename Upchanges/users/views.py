@@ -1,11 +1,60 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from Upchanges import db
 from Upchanges.models import User, BlogPost
 from Upchanges.users.forms import RegisterForm, LoginForm, UpdateUserForm
 from Upchanges.users.picture_handler import add_profile_pic
+from Upchanges.users.security import ts, send_email
 
 users = Blueprint('users', __name__)
+
+#Test register
+# @users.route('/test/register', methods=['GET', 'POST'])
+# def test_register():
+#     form1 = RegisterForm()
+#
+#     if form1.validate_on_submit():
+#         user = User(email=form1.email.data,
+#                     first_name=form1.first_name.data,
+#                     middle_name=form1.middle_name.data,
+#                     last_name=form1.last_name.data,
+#                     password=form1.password.data,
+#                     email_confirmed=0)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash('Thanks for registration!')
+#
+#         recipients = form1.email.data
+#
+#         subject = "Confirm your Upchanges account"
+#         token = ts.dumps(recipients, salt='email-confirm-key')
+#         confirm_url = url_for('users.confirm_email',token=token,_external=True,recipients=recipients)
+#         html = render_template('test_register.html', confirm_url=confirm_url)
+#
+#         send_email(recipients, subject, html)
+#
+#
+#         return redirect(url_for('users.login'))
+#
+#     return render_template('register.html', form1=form1)
+#
+# #Test confirm
+# @users.route('/confirm/<token>/')
+# def confirm_email(token):
+#     try:
+#         recipients = ts.loads(token, salt="email-confirm-key", max_age=86400)
+#     except:
+#         abort(404)
+#
+#     user2 = User.query.filter(User.email.ilike(recipients))
+#     user2.email_confirmed = 1  # 1 means True, 0 means False
+#
+#     db.session.add(user2)
+#     db.session.commit()
+#
+
+
+
 
 
 # register

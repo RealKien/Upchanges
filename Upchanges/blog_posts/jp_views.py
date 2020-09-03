@@ -1,9 +1,11 @@
 from flask import render_template, url_for, flash, request, redirect, Blueprint, abort
 from flask_login import current_user, login_required
 from Upchanges import db
-from Upchanges.models import BlogPost
-from Upchanges.blog_posts.forms import BlogPostForm
+from Upchanges.models import BlogPost, BlogIdea, BlogInfo
+from Upchanges.blog_posts.forms import BlogPostForm, BlogIdeaForm
+from Upchanges.blog_info.forms import BlogInfoForm
 from Upchanges.users.picture_handler import add_blog_pic
+from sqlalchemy import and_
 
 jp_blog_posts = Blueprint('jp_blog_posts', __name__)
 
@@ -39,12 +41,107 @@ def blog_view(blog_validated_id):
     country = 'Japan'
     blog_view = BlogPost.query.get_or_404(
         blog_validated_id)  # check to see if a blog with an id exist, if not, return 404
-    # blog_next = blog_validated_id+1
+
+    form2 = BlogInfoForm()
+
+    form3 = BlogIdeaForm()
+
+    if form2.validate_on_submit():
+
+        blog_comment_validated = BlogInfo(text=form2.text.data,
+                                          user_id=current_user.id,
+                                          blog_post_id=blog_validated_id)
+        blog_info_check0 = BlogInfo.query.filter(and_(BlogInfo.user_id.ilike(blog_comment_validated.user_id)),
+                                                 (BlogInfo.blog_post_id.ilike(blog_validated_id)))
+        blog_info_check = blog_info_check0.count()
+        if blog_info_check >= 1:
+            abort(403)
+        else:
+            db.session.add(blog_comment_validated)
+            db.session.commit()
+            flash("Blog's comment added")
+
+            page = request.args.get('page', 1, type=int)
+            comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(
+                BlogInfo.date.desc())
+            comment_blogs = comment_blogs1.paginate(page=page, per_page=2)
+            comment_blogs_num = comment_blogs1.count()
+
+            return redirect(url_for('blog_posts.blog_view', problem_name=blog_view.problem_name,
+                                    date=blog_view.date,
+                                    blog_image=blog_view.blog_image,
+                                    post=blog_view,
+                                    problem_type=blog_view.problem_type, form2=form2, comment_blogs=comment_blogs,
+                                    comment_text=blog_comment_validated.text, blog_validated_id=blog_validated_id,
+                                    page=page,
+                                    comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check, form3=form3))
+
+
+    elif form3.validate_on_submit():
+
+        blog_idea_validated = BlogIdea(text=form3.text2.data,
+                                       user_id=current_user.id,
+                                       blog_post_id=blog_validated_id)
+        blog_idea_check0 = BlogIdea.query.filter(and_(BlogIdea.user_id.ilike(blog_idea_validated.user_id)),
+                                                 (BlogIdea.blog_post_id.ilike(blog_validated_id)))
+        blog_idea_check = blog_idea_check0.count()
+
+        if blog_idea_check >= 1:
+            abort(403)
+        else:
+            db.session.add(blog_idea_validated)
+            db.session.commit()
+            flash("Problem idea added")
+
+            page = request.args.get('page', 1, type=int)
+            ideas1 = BlogIdea.query.filter(BlogIdea.blog_post_id.ilike(blog_validated_id)).order_by(
+                BlogIdea.date.desc())
+            ideas = ideas1.paginate(page=page, per_page=2)
+            ideas_num = ideas1.count()
+
+            return redirect(url_for('blog_posts.blog_view', problem_name=blog_view.problem_name,
+                                    date=blog_view.date,
+                                    blog_image=blog_view.blog_image,
+                                    post=blog_view,
+                                    problem_type=blog_view.problem_type,
+                                    form3=form3, ideas=ideas, ideas_num=ideas_num,
+                                    blog_idea_check=blog_idea_check, idea_text=blog_idea_validated.text,
+                                    blog_validated_id=blog_validated_id, page=page))
+
+    if current_user.is_authenticated:
+        id_check = current_user.id
+    else:
+        id_check = 0
+
+    blog_info_check0 = BlogInfo.query.filter(and_(BlogInfo.user_id.ilike(id_check)),
+                                             (BlogInfo.blog_post_id.ilike(blog_validated_id)))
+    blog_info_check = blog_info_check0.count()
+    blog_idea_check0 = BlogIdea.query.filter(and_(BlogIdea.user_id.ilike(id_check)),
+                                             (BlogIdea.blog_post_id.ilike(blog_validated_id)))
+    blog_idea_check = blog_idea_check0.count()
+
+    page = request.args.get('page', 1, type=int)
+    comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id)).order_by(
+        BlogInfo.date.desc())
+    comment_blogs = comment_blogs1.paginate(page=page, per_page=2)
+    comment_blogs_num = comment_blogs1.count()
+
+    page2 = request.args.get('page2', 1, type=int)
+    ideas1 = BlogIdea.query.filter(BlogIdea.blog_post_id.ilike(blog_validated_id)).order_by(
+        BlogIdea.date.desc())
+    ideas = ideas1.paginate(page=page2, per_page=2)
+    ideas_num = ideas1.count()
+    print(ideas_num)
+
+    total_num = comment_blogs_num + ideas_num
     return render_template('blog_view.html', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
                            post=blog_view,
-                           problem_type=blog_view.problem_type, country=country)
+                           problem_type=blog_view.problem_type, country=country, total_num=total_num, ideas=ideas,
+                           comment_blogs=comment_blogs,
+                           blog_idea_check=blog_idea_check, blog_info_check=blog_info_check, form2=form2,
+                           blog_validated_id=blog_validated_id, form3=form3)
 
 
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)

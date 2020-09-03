@@ -64,7 +64,7 @@ class BlogPost(db.Model):
     ###IF I CAN'T FIX THE BLOG_IMAGE ERRORS, I CAN JUST COMMENT OFF THOSE CODES THAT RELATE TO THEM###
     bloginfos2 = db.relationship('BlogInfo', backref="comment2", lazy=True)
     blogideas2 = db.relationship('BlogInfo', backref="idea_creator2", lazy=True)
-    blogproject2 = db.relationship('BlogProject', backref="project_creator", lazy=True)
+    blogproject2 = db.relationship('BlogProject', backref="project_creator2", lazy=True)
 
     def __init__(self, text, problem_name, user_id, blog_image, problem_type, country):
         self.text = text
@@ -131,30 +131,30 @@ class BlogIdea(db.Model):
 
 
 
-# class BlogProject(db.Model):
-#     __tablename__ = 'blog_projects'
-#     users = db.relationship(User)
-#     blog_post = db.relationship(BlogPost)
-#
-#     blog_project_id = db.Column(db.Integer,primary_key=True)
-#     blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.blog_id'), nullable=False)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-#     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-#     project_name = db.Column(db.String(140), nullable=False)
-#     project_short_info = db.Column(db.Text(300), nullable= False)
-#     project_link = db.Column(db.String(100), nullable=False)
-#     project_image = db.Column(db.String(140), nullable=False, server_default='default_project.jpg')
-#
-#     def __init__(self,blog_post_id,user_id,project_name, project_short_info, project_link, project_image):
-#         self.blog_post_id = blog_post_id
-#         self.user_id = user_id
-#         self.project_name = project_name
-#         self.project_short_info = project_short_info
-#         self.project_link = project_link
-#         self.project_image = project_image
-#
-#     def __repr__(self):
-#         return f"Blog project ID:{self.blog_project_id}--Date:{self.date}--Project name:{self.project_name}"
+class BlogProject(db.Model):
+    __tablename__ = 'blog_projects'
+    users = db.relationship(User)
+    blog_post = db.relationship(BlogPost)
+
+    blog_project_id = db.Column(db.Integer,primary_key=True)
+    blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.blog_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    project_name = db.Column(db.String(140), nullable=False)
+    project_short_info = db.Column(db.Text(300), nullable= False)
+    project_link = db.Column(db.String(100), nullable=False)
+    project_image = db.Column(db.String(140), nullable=False, server_default='default_project.jpg')
+
+    def __init__(self,blog_post_id,user_id,project_name, project_short_info, project_link, project_image):
+        self.blog_post_id = blog_post_id
+        self.user_id = user_id
+        self.project_name = project_name
+        self.project_short_info = project_short_info
+        self.project_link = project_link
+        self.project_image = project_image
+
+    def __repr__(self):
+        return f"Blog project ID:{self.blog_project_id}--Date:{self.date}--Project name:{self.project_name}"
 
 
 

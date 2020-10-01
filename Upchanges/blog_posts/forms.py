@@ -16,3 +16,11 @@ class BlogPostForm(FlaskForm):
 class BlogIdeaForm(FlaskForm):
     text2 = TextAreaField('Add your idea', validators=[DataRequired()])
     idea_submit = SubmitField("Post")
+
+class BlogProjectForm(FlaskForm):
+    project_image = FileField('Add picture of your project+ / Update picture:', validators=[FileAllowed(['jpg', 'png', 'jpeg']), DataRequired()])
+    project_name = StringField('Your project name:', validators=[DataRequired()])
+    project_short_info = TextAreaField('Short description of your project:', validators=[DataRequired()])
+    project_link = StringField('Google Docs link to your project:', validators=[DataRequired()])
+    project_submit = SubmitField("Post")
+

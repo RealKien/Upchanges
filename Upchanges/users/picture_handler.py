@@ -43,6 +43,22 @@ def add_blog_pic(pic_blog_upload, problem_name):
     #returning a string like username.png
 
 
+def add_project_pic(pic_project_upload, project_name):
+    filename = pic_project_upload.filename
+    ext_type = filename.split('.')[-1]
+    storage_filename = str(project_name)+'.'+ext_type
+
+    filepath  = os.path.join(current_app.root_path,'static/project_pics',storage_filename)
+
+    output_size = (550,250)
+
+    pic_project = Image.open(pic_project_upload)
+    pic_project.thumbnail(output_size)
+    pic_project.save(filepath)
+
+    return storage_filename
+
+
 
 
 

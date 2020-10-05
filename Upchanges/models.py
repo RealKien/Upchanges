@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     bloginfos = db.relationship('BlogInfo', backref= 'comment', lazy=True)
     blogideas = db.relationship('BlogIdea', backref='idea_creator', lazy=True)
     blogprojects = db.relationship('BlogProject', backref='project_creator', lazy=True)
+    # email_confirms = db.relationship("EmailConfirm", backref="email_confirm", lazy=True)
 
     def __init__(self,email,first_name, middle_name, last_name, password):     #This is so that we can use the database for other files in this folder Upchanges.
         self.email = email
@@ -37,6 +38,7 @@ class User(db.Model, UserMixin):
         self.middle_name = middle_name
         self.last_name = last_name
         self.password_hash = generate_password_hash(password)
+
 
 
 
@@ -158,7 +160,20 @@ class BlogProject(db.Model):
 
 
 
+class EmailConfirm(db.Model):
+    __tablename__ = "Email_confirm"
 
+
+    confirm_number = db.Column(db.Integer,primary_key=True)
+    user_email = db.Column(db.String(64), unique=True, index=True)
+    email_confirmed = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __init__(self,email_confirmed,user_email):
+        self.email_confirmed=email_confirmed
+        self.user_email=user_email
+
+    def __repr__(self):
+        return f"Email Confirm:{self.email_confirmed}"
 
 
 

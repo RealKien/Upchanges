@@ -4,7 +4,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_mail import Mail, Message
+from flask_mail import Mail
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, TimedSerializer
 # from Upchanges.models import MangagePassword
 
 app = Flask(__name__)
@@ -18,10 +19,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
+# app.config.from_object(__name__)
 
-mail = Mail(app)
 
-MAIL_USERNAME = '2022.kien.letrung@uwcisak.jp'
+
+MAIL_USERNAME = 'letrungkien208@gmail.com'
 MAIL_PASSWORD = 'bibopyeudau'
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -30,6 +32,10 @@ app.config['MAIL_USERNAME'] = MAIL_USERNAME
 app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
+
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 # connect_password = MangagePassword.query(1)
 # mail_admin_password = connect_password.password
@@ -75,3 +81,4 @@ app.register_blueprint(vn_blog_posts)
 app.register_blueprint(jp_blog_posts)
 app.register_blueprint(usa_blog_posts)
 app.register_blueprint(blog_info)
+

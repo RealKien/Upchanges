@@ -1,63 +1,31 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from flask_login import login_user, current_user, logout_user, login_required
-from Upchanges import db
-from Upchanges.models import User, BlogPost
+from Upchanges import db, mail, app, s
+from Upchanges.models import User, BlogPost, EmailConfirm
 from Upchanges.users.forms import RegisterForm, LoginForm, UpdateUserForm
 from Upchanges.users.picture_handler import add_profile_pic
-from Upchanges.users.security import ts, send_email
+from flask_mail import Mail,Message
+from itsdangerous import URLSafeSerializer, SignatureExpired, TimedSerializer
 
 users = Blueprint('users', __name__)
 
-#Test register
-# @users.route('/test/register', methods=['GET', 'POST'])
-# def test_register():
-#     form1 = RegisterForm()
-#
-#     if form1.validate_on_submit():
-#         user = User(email=form1.email.data,
-#                     first_name=form1.first_name.data,
-#                     middle_name=form1.middle_name.data,
-#                     last_name=form1.last_name.data,
-#                     password=form1.password.data,
-#                     email_confirmed=0)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash('Thanks for registration!')
-#
-#         recipients = form1.email.data
-#
-#         subject = "Confirm your Upchanges account"
-#         token = ts.dumps(recipients, salt='email-confirm-key')
-#         confirm_url = url_for('users.confirm_email',token=token,_external=True,recipients=recipients)
-#         html = render_template('test_register.html', confirm_url=confirm_url)
-#
-#         send_email(recipients, subject, html)
-#
-#
-#         return redirect(url_for('users.login'))
-#
-#     return render_template('register.html', form1=form1)
-#
-# #Test confirm
-# @users.route('/confirm/<token>/')
-# def confirm_email(token):
-#     try:
-#         recipients = ts.loads(token, salt="email-confirm-key", max_age=86400)
-#     except:
-#         abort(404)
-#
-#     user2 = User.query.filter(User.email.ilike(recipients))
-#     user2.email_confirmed = 1  # 1 means True, 0 means False
-#
-#     db.session.add(user2)
-#     db.session.commit()
-#
+
+mail = mail
+
+s=s
 
 
 
+@users.route("/please_confirm_your_email/<email>")
+def wait_for_confirm(email):
+    return render_template("please_confirm_email.html", email=email)
 
 
-# register
+@users.route("/confirm_link_expired/resend_confirmation_email")
+def expired_resend_confirm():
+    return render_template("confirm_time_out.html")
+
+
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     form1 = RegisterForm()
@@ -70,21 +38,64 @@ def register():
                     password=form1.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Thanks for registration!')
-        return redirect(url_for('users.login'))
+
+        account_verify = EmailConfirm(email_confirmed=False,
+                                      user_email=form1.email.data)
+
+        email = user.email
+        print(email)
+
+        token = s.dumps(email,salt="email-confirm")
+
+        msg = Message("Confirm your Upchanges account", sender="letrungkien208@gmail.com", recipients=[email])
+        link = url_for("users.confirm_email", token=token, _external=True)
+        msg.body = "Please click this link to confirm your Upchanges account: {}".format(link)
+        mail.send(msg)
+
+
+        db.session.add(account_verify)
+        db.session.commit()
+        flash('Thanks for registration! Please confirm your email!')
+
+
+        return redirect(url_for('users.wait_for_confirm', email=email))
+
     return render_template('register.html', form1=form1)
 
+
+@users.route("/confirm_email/<token>")
+def confirm_email(token):
+    try:
+        email = s.loads(token, salt="email-confirm", max_age=1800)
+        #the problem is about this expiration time above
+
+    except SignatureExpired:
+        return redirect(url_for("users.expired_resend_confirm"))
+
+
+    account_verify = EmailConfirm.query.filter_by(user_email=email).first_or_404()
+
+    # print(account_verify)
+    account_verify.email_confirmed = True
+
+    db.session.add(account_verify)
+    db.session.commit()
+    flash("You have confirmed your account. Thank you.")
+
+    return render_template('confirmation_success.html')
 
 # login
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     form2 = LoginForm()
     if form2.validate_on_submit():
-        email1 = User.query.filter_by(email=form2.email.data).first()  # putting first here helps get the right format
+        user = User.query.filter_by(email=form2.email.data).first()  # putting first here helps get the right format
+        account_verify = EmailConfirm.query.filter_by(user_email=form2.email.data).first_or_404()
+        email_confirmed = account_verify.email_confirmed
 
-        if email1 is not None and email1.check_password(form2.password.data):
+        if user is not None and user.check_password(form2.password.data) and email_confirmed is not False:
 
-            login_user(email1)
+            login_user(user)
             flash('Log in Success!')
 
             next = request.args.get('next')  # grab the information of what the user tried to access
@@ -94,11 +105,13 @@ def login():
     return render_template('login.html', form2=form2)
 
 
+
 # logout
 @users.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for("core.index"))
+
 
 
 # account (update UserForm)
@@ -145,14 +158,49 @@ def user_posts(username):
     return render_template('user_blog_posts.html', blog_posts=blog_posts, home_user=home_user)
 
 
-# @login_required
-# @users.route('/<username>')
-# def user_mypage(username):
-#     page = request.args.get('page', 1, type=int)
-#     user_me = User.query.filter_by(username=username).first_or_404()
+
+
+
+
+
+######################Un-comment the codes below after testing/or when test didn't work out#################
+#register
+# @users.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form1 = RegisterForm()
 #
-#     blog_posts = BlogPost.query.filter_by(creator=user_me).order_by(BlogPost.date.desc()).paginate(page=page,
-#                                                                                                      per_page=5)
-#     return render_template('mypage.html', blog_posts=blog_posts, user_me=user_me)
+#     if form1.validate_on_submit():
+#         user = User(email=form1.email.data,
+#                     first_name=form1.first_name.data,
+#                     middle_name=form1.middle_name.data,
+#                     last_name=form1.last_name.data,
+#                     password=form1.password.data)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash('Thanks for registration!')
+#         return redirect(url_for('users.login'))
+#     return render_template('register.html', form1=form1)
+#
+#
+# # login
+# @users.route('/login', methods=['GET', 'POST'])
+# def login():
+#     form2 = LoginForm()
+#     if form2.validate_on_submit():
+#         email1 = User.query.filter_by(email=form2.email.data).first()  # putting first here helps get the right format
+#
+#         if email1 is not None and email1.check_password(form2.password.data):
+#
+#             login_user(email1)
+#             flash('Log in Success!')
+#
+#             next = request.args.get('next')  # grab the information of what the user tried to access
+#             if next == None or not next[0] == '/':  # either go to the homepage or go the page they wanted to go
+#                 next = url_for('core.index')
+#             return redirect(next)
+#     return render_template('login.html', form2=form2)
+
+
+##############################################################################
 
 

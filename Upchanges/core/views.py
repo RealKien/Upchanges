@@ -201,3 +201,8 @@ def info():
 def contact():
     country = 'Earth'
     return render_template('contact.html', country=country)
+
+@core.route('/terms')
+def terms():
+    country = 'Earth'
+    return render_template('terms.html', country=country)

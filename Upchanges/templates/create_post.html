@@ -14,11 +14,7 @@
     {{ form.problem_type.label }} {{ form.problem_type }}<br>
     {{ form.country.label }} {{ form.country }}<br>
     <br>
-    <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="">
-        <label class="form-check-label" for="">I understand that after posting, under conditions, my post could not be delete.</label> {# NEED TO ADD THIS PRIVACY CHECK, if users doesn't tick on this box, they can't post problems. #}
-    </div>
-    <br>
+    <p class="small text-muted">By posting, you accept that after posting, under conditions related to other users, your post could not be delete.</p>
     {{ form.problem_submit(class="btn btn-warning") }}
     <a href="{{ url_for('core.index') }}"><button type="button" class="btn btn-danger">Cancel </button></a>
 

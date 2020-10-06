@@ -196,3 +196,8 @@ def society():
 def info():
     country = 'Earth'
     return render_template('info.html', country=country)
+
+@core.route('/contact')
+def contact():
+    country = 'Earth'
+    return render_template('contact.html', country=country)

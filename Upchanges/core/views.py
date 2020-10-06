@@ -206,3 +206,14 @@ def contact():
 def terms():
     country = 'Earth'
     return render_template('terms.html', country=country)
+
+
+@core.route('/privacy')
+def privacy():
+    country = 'Earth'
+    return render_template('privacy_policy.html', country=country)
+
+@core.route('/faq')
+def faq():
+    country = 'Earth'
+    return render_template('faq.html', country=country)

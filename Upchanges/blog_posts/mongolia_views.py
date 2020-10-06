@@ -9,13 +9,13 @@ from sqlalchemy import and_
 
 
 
-usa_blog_posts = Blueprint('usa_blog_posts',__name__)
+mongolia_blog_posts = Blueprint('mongolia_blog_posts',__name__)
 
-@usa_blog_posts.route('/usa/create', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
     form = BlogPostForm()
-    country="USA"
+    country="Mongolia"
     if form.validate_on_submit():
         blog_validated = BlogPost(problem_name=form.problem_name.data,
                                   text=form.text.data,
@@ -35,12 +35,12 @@ def create_post():
     return render_template('create_post.html', form=form, country=country)
 
 
-@usa_blog_posts.route('/usa/<blog_validated_id>/add_project', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<blog_validated_id>/add_project', methods=['GET', 'POST'])
 @login_required
 def add_project(blog_validated_id):
     form4 = BlogProjectForm()
 
-    country="USA"
+    country="Mongolia"
     if form4.validate_on_submit():
 
         blog_project_validated = BlogProject(project_name=form4.project_name.data,
@@ -87,7 +87,7 @@ def add_project(blog_validated_id):
 
 
 # View blog post
-@usa_blog_posts.route('/usa/<int:blog_validated_id>', methods=['GET',
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>', methods=['GET',
                                                        'POST'])  # int makes a string a number so that BlogPost.query doesn't show error(because data can only stored as number)
 def blog_view(blog_validated_id):
     blog_view = BlogPost.query.get_or_404(
@@ -97,7 +97,7 @@ def blog_view(blog_validated_id):
 
     form3 = BlogIdeaForm()
 
-    country="USA"
+    country="Mongolia"
 
     if form2.validate_on_submit():
 
@@ -217,12 +217,12 @@ def blog_view(blog_validated_id):
 
 
 # Update
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/update', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/update', methods=['GET', 'POST'])
 @login_required
 def update(blog_validated_id):
     blog_update = BlogPost.query.get_or_404(blog_validated_id)
 
-    country="USA"
+    country="Mongolia"
 
     if blog_update.creator != current_user:  # if creator of the blog is not the current user
         abort(403)  # show 403 no permission page
@@ -256,7 +256,7 @@ def update(blog_validated_id):
 
 
 # Delete
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/delete', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_post(blog_validated_id):
 
@@ -282,11 +282,11 @@ def delete_post(blog_validated_id):
     return redirect(url_for('core.index'))
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<int:blog_info_id>/update', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<int:blog_info_id>/update', methods=['GET', 'POST'])
 @login_required
 def blog_info_update(blog_validated_id, blog_info_id):
 
-    country="USA"
+    country="Mongolia"
 
     blog_view = BlogPost.query.get_or_404(blog_validated_id)
     blog_info_update = BlogInfo.query.get_or_404(blog_info_id)
@@ -349,7 +349,7 @@ def blog_info_update(blog_validated_id, blog_info_id):
                            projects_num=projects_num, country=country)
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])
 @login_required
 def blog_info_delete(blog_info_id, blog_validated_id):
     blog_info_delete = BlogInfo.query.get_or_404(blog_info_id)
@@ -374,7 +374,7 @@ def blog_info_delete(blog_info_id, blog_validated_id):
     return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id))
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<int:blog_idea_id>/delete_idea', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<int:blog_idea_id>/delete_idea', methods=['GET', 'POST'])
 @login_required
 def blog_idea_delete(blog_validated_id, blog_idea_id):
     blog_idea_delete = BlogIdea.query.get_or_404(blog_idea_id)
@@ -399,11 +399,11 @@ def blog_idea_delete(blog_validated_id, blog_idea_id):
     return redirect(url_for('blog_posts.blog_view', blog_validated_id=blog_validated_id))
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<int:blog_idea_id>/update_idea', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<int:blog_idea_id>/update_idea', methods=['GET', 'POST'])
 @login_required
 def blog_idea_update(blog_validated_id, blog_idea_id):
 
-    country="USA"
+    country="Mongolia"
 
     blog_view = BlogPost.query.get_or_404(blog_validated_id)
     blog_idea_update = BlogIdea.query.get_or_404(blog_idea_id)
@@ -464,12 +464,12 @@ def blog_idea_update(blog_validated_id, blog_idea_id):
                            projects=projects, projects_num=projects_num, country=country)
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<blog_project_id>/update_project', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<blog_project_id>/update_project', methods=['GET', 'POST'])
 @login_required
 def blog_project_update(blog_validated_id, blog_project_id):
     # blog_view = BlogPost.query.get_or_404(blog_validated_id)
 
-    country="USA"
+    country="Mongolia"
     blog_project_update = BlogProject.query.get_or_404(blog_project_id)
 
     if blog_project_update.project_creator != current_user:  # if creator of the blog is not the current user
@@ -503,7 +503,7 @@ def blog_project_update(blog_validated_id, blog_project_id):
     return render_template('add_project.html', form4=form4, country=country)
 
 
-@usa_blog_posts.route('/usa/<int:blog_validated_id>/<blog_project_id>/delete_project', methods=['GET', 'POST'])
+@mongolia_blog_posts.route('/mongolia/<int:blog_validated_id>/<blog_project_id>/delete_project', methods=['GET', 'POST'])
 @login_required
 def blog_project_delete(blog_validated_id, blog_project_id):
 

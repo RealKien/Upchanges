@@ -60,6 +60,9 @@ def register():
                     middle_name=form1.middle_name.data,
                     last_name=form1.last_name.data,
                     password=form1.password.data)
+        check = User.query.filter_by(email=user.email).first()
+        if check:
+            abort(403)
         db.session.add(user)
         db.session.commit()
 

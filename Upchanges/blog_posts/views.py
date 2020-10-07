@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, request, redirect, Blueprint, abort
 from flask_login import current_user, login_required
 from Upchanges import db
-from Upchanges.models import BlogPost, BlogInfo, BlogIdea, BlogProject
+from Upchanges.models import BlogPost, BlogInfo, BlogIdea, BlogProject, User
 from Upchanges.blog_posts.forms import BlogPostForm, BlogIdeaForm, BlogProjectForm
 from Upchanges.blog_info.forms import BlogInfoForm
 from Upchanges.users.picture_handler import add_blog_pic, add_project_pic
@@ -92,7 +92,7 @@ def blog_view(blog_validated_id):
 
     form3 = BlogIdeaForm()
 
-
+    admin = User.query.filter_by(email= "letrungkien208@gmail.com").first_or_404()
 
     if form2.validate_on_submit():
 
@@ -193,14 +193,14 @@ def blog_view(blog_validated_id):
     ####################################
 
     total_num = comment_blogs_num + ideas_num + projects_num
-
+    print(admin.id)
     return render_template('blog_view.html', problem_name=blog_view.problem_name,
                            date=blog_view.date,
                            blog_image=blog_view.blog_image,
                            post=blog_view,
                            problem_type= blog_view.problem_type, form2=form2, comment_blogs=comment_blogs, blog_validated_id=blog_validated_id, page=page,
                            comment_blogs_num=comment_blogs_num, blog_info_check=blog_info_check, id_check=id_check, form3=form3, blog_idea_check=blog_idea_check,ideas=ideas, ideas_num=ideas_num,page2=page2, total_num=total_num,
-                            page3=page3, projects=projects, projects_num=projects_num)
+                            page3=page3, projects=projects, projects_num=projects_num,admin=admin)
 
 # put post_next=blog_next after post=blog_view, later(trying to create a blog_id+1's id for the alignment of blogs)
 
@@ -211,8 +211,13 @@ def blog_view(blog_validated_id):
 def update(blog_validated_id):
     blog_update = BlogPost.query.get_or_404(blog_validated_id)
 
-    if blog_update.creator != current_user: #if creator of the blog is not the current user
-        abort(403)  #show 403 no permission page
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+
+    # print(admin.id)
+    # print(blog_update.user_id)
+    if blog_update.creator != current_user and current_user.id!=admin.id: #if creator of the blog is not the current user
+        abort(403)
+
 
     form = BlogPostForm()#Creating an instance by writing A= B() ;creating an instance of B using A
     form3 = BlogIdeaForm()
@@ -253,9 +258,11 @@ def update(blog_validated_id):
 @login_required
 def delete_post(blog_validated_id):
 
+
+
     blog_delete = BlogPost.query.get_or_404(blog_validated_id)
 
-    # admin=
+
 
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num = comment_blogs1.count()
@@ -266,9 +273,11 @@ def delete_post(blog_validated_id):
     comment_blogs3 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num3 = comment_blogs3.count()
 
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
 
-    if blog_delete.creator != current_user: #if creator of the blog is not the current user
+    if blog_delete.creator != current_user and current_user.id!=admin.id: #if creator of the blog is not the current user
         abort(403)  #show 403 no permission page
+
     if comment_blogs_num >= 2 or comment_blogs_num2 >=2 or comment_blogs_num3 >=2:
         abort(403)
 

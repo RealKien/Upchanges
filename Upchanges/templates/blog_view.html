@@ -128,7 +128,8 @@
                  ORIGINAL POST<span class="iconify" data-icon="bi:star" data-inline="false"></span> | Posted on:
               {% endif %} {{ post.date.strftime('%Y-%m-%d') }}</small>
         <p class="card-text ml-5 text-break">{{ post.text }}</p>
-    {% if post.creator == current_user %}
+
+    {% if post.creator == current_user or current_user.id==admin.id %}
         <div>
         <a href="{{ url_for('blog_posts.update',blog_validated_id=post.blog_id) }}"><button type="button" class="btn btn-info btn-sm" >Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
         {% if comment_blogs_num >= 2  %}

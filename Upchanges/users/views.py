@@ -28,11 +28,9 @@ def resend_confirm():
         link = url_for("users.confirm_email", token=token, _external=True)
         msg.body = "Hi," \
  \
-                   "Please click this link to confirm your Upchanges account:" \
-                   "{}" \
-                   "The link will expired in 30 minutes and you may not be able to confirm your email permanently!" \
+                   "Please click this link to confirm your Upchanges account: {}    The link will expired in 30 minutes and you may not be able to confirm your email permanently!" \
  \
-                   "Thank you.".format(link)
+                   "   Thank you.".format(link)
         mail.send(msg)
         return redirect(url_for('users.wait_for_confirm', email=email))
 
@@ -78,11 +76,10 @@ def register():
         link = url_for("users.confirm_email", token=token, _external=True)
         msg.body = "Hi," \
  \
-                   "Please click this link to confirm your Upchanges account:" \
-                   "{}"\
-            "The link will expired in 30 minutes and you may not be able to confirm your email permanently!"\
-            \
-            "Thank you.".format(link)
+                   "Please click this link to confirm your Upchanges account: {}    The link will expired in 30 minutes and you may not be able to confirm your email permanently!" \
+ \
+                   "   Thank you.".format(link)
+
         mail.send(msg)
 
 
@@ -99,7 +96,7 @@ def register():
 @users.route("/confirm_email/<token>")
 def confirm_email(token):
     try:
-        email = s.loads(token, salt="email-confirm", max_age=1800)
+        email = s.loads(token, salt="email-confirm", max_age=300)
         #the problem is about this expiration time above
 
     except SignatureExpired:

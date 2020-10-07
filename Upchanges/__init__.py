@@ -2,15 +2,17 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, TimedSerializer
-# from Upchanges.models import MangagePassword
+# from Upchanges.models import User, BlogPost, BlogProject, BlogInfo, BlogIdea, EmailConfirm,MangagePassword
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'mysecret'
+app.config['SECRET_KEY'] = 'Bibopyeudau123'
 
 # DATABASE SETUP
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -50,6 +52,11 @@ def add_header(response):
 
 db = SQLAlchemy(app)
 Migrate(app, db)
+
+# admin = Admin(app, name='Upchanges_admin_page', template_mode='bootstrap3')
+# admin.add_view(ModelView(BlogPost, db.session))
+
+
 
 # SET UP LOGIN CONFIGURATION
 login_manager = LoginManager()
@@ -94,4 +101,6 @@ app.register_blueprint(estonia_blog_posts)
 app.register_blueprint(ghana_blog_posts)
 app.register_blueprint(mongolia_blog_posts)
 app.register_blueprint(blog_info)
+
+
 

@@ -255,6 +255,8 @@ def delete_post(blog_validated_id):
 
     blog_delete = BlogPost.query.get_or_404(blog_validated_id)
 
+    # admin=
+
     comment_blogs1 = BlogInfo.query.filter(BlogInfo.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num = comment_blogs1.count()
 

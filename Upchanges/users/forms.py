@@ -38,3 +38,13 @@ class UpdateUserForm(FlaskForm):
         if User.query.filter_by(email=field.data).first(): #This code is to make sure that an email can only be registered for 1 time.
             raise ValidationError('Your email had been registered already.')
 
+
+class Resend_Email_Form(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    resend_post = SubmitField('Send Account Confirmation Email')
+
+    def check_email(self, field):
+        if not User.query.filter_by(email=field.data).first(): #This code is to make sure that an email can only be registered for 1 time.
+            raise ValidationError("Your email hadn't been registered.")
+
+

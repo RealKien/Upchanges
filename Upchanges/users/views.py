@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from Upchanges import db, mail, app, s
 from Upchanges.models import User, BlogPost, EmailConfirm
-from Upchanges.users.forms import RegisterForm, LoginForm, UpdateUserForm
+from Upchanges.users.forms import RegisterForm, LoginForm, UpdateUserForm, Resend_Email_Form
 from Upchanges.users.picture_handler import add_profile_pic
 from flask_mail import Mail,Message
 from itsdangerous import URLSafeSerializer, SignatureExpired, TimedSerializer
@@ -14,6 +14,30 @@ mail = mail
 
 s=s
 
+@users.route("/resend_confirmation_email", methods=['GET','POST'])
+def resend_confirm():
+    form = Resend_Email_Form()
+
+    if form.validate_on_submit():
+        email = form.email.data
+
+        token = s.dumps(email, salt='email-confirm')
+
+        msg = Message("Confirm your Upchanges account | Resend confirmation email", sender="letrungkien208@gmail.com",
+                      recipients=[email])
+        link = url_for("users.confirm_email", token=token, _external=True)
+        msg.body = "Hi," \
+ \
+                   "Please click this link to confirm your Upchanges account:" \
+                   "{}" \
+                   "The link will expired in 30 minutes and you may not be able to confirm your email permanently!" \
+ \
+                   "Thank you.".format(link)
+        mail.send(msg)
+        return redirect(url_for('users.wait_for_confirm', email=email))
+
+    return render_template('resend_confirm_email.html', form=form)
+
 
 
 @users.route("/please_confirm_your_email/<email>")
@@ -23,7 +47,7 @@ def wait_for_confirm(email):
 
 @users.route("/confirm_link_expired/resend_confirmation_email")
 def expired_resend_confirm():
-    return render_template("confirm_time_out.html")
+  return render_template("confirm_time_out.html")
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -49,7 +73,13 @@ def register():
 
         msg = Message("Confirm your Upchanges account", sender="letrungkien208@gmail.com", recipients=[email])
         link = url_for("users.confirm_email", token=token, _external=True)
-        msg.body = "Please click this link to confirm your Upchanges account: {}".format(link)
+        msg.body = "Hi," \
+ \
+                   "Please click this link to confirm your Upchanges account:" \
+                   "{}"\
+            "The link will expired in 30 minutes and you may not be able to confirm your email permanently!"\
+            \
+            "Thank you.".format(link)
         mail.send(msg)
 
 

@@ -320,7 +320,9 @@ def blog_info_update(blog_validated_id, blog_info_id):
 
     update_status = 1 #if update_status=0, form 2 will be hide
 
-    if blog_info_update.comment!= current_user:
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+
+    if blog_info_update.comment!= current_user and current_user.id!=admin.id:
         abort(403)
 
     form2 = BlogInfoForm()
@@ -352,7 +354,15 @@ def blog_info_update(blog_validated_id, blog_info_id):
                                 blog_image=blog_view.blog_image,
                                 post=blog_view,
                                 problem_type=blog_view.problem_type, update_status=update_status, form3=form3, page2=page,
-                           ideas=ideas, ideas_num=ideas_num, total_num=total_num, projects=projects, projects_num=projects_num)
+                           ideas=ideas, ideas_num=ideas_num, total_num=total_num, projects=projects, projects_num=projects_num, admin=admin)
+
+
+
+
+####Need to add admin for update/edit blog_idea, blog_info,blog_project from down below#######
+
+
+
 
 
 @blog_posts.route('/<int:blog_validated_id>/<int:blog_info_id>/delete', methods=['GET', 'POST'])

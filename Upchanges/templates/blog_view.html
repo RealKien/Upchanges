@@ -170,7 +170,7 @@
                   Posted on:
               {% endif %} {{ post2.date.strftime('%Y-%m-%d') }}</small>
           <p class="card-text ml-5 text-break">{{ post2.text }}</p>
-      {% if post2.comment == current_user %}
+      {% if post2.comment == current_user or current_user.id==admin.id %}
          <a href="{{ url_for('blog_posts.blog_info_update', blog_validated_id=post2.blog_post_id, blog_info_id=post2.blog_info_id) }}"><button class="btn btn-light btn-sm text-muted ">Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
           {% if total_num >= 2 %}
 
@@ -356,7 +356,7 @@
          <img class="text-center rounded shadow" src="{{ url_for('static', filename='project_pics/'+ post4.project_image) }}" width = "300" height = "150" alt="">
           <br>
             <br>
-          <a href="{{ post4.project_link }}"><button type="button" id="idea_button" class="btn btn-warning btn-sm">Go to this project's Google Doc link to learn how to join and more <span class="iconify" data-icon="bi:people" data-inline="false"></span></button></a>
+          <a href="{{ post4.project_link }}" target="_blank"><button type="button" id="idea_button" class="btn btn-warning btn-sm">Go to this project's Google Doc link to learn how to join and more <span class="iconify" data-icon="bi:people" data-inline="false"></span></button></a>
           <br>
           <br>
           <p>Short information about the project:</p>

@@ -8,7 +8,7 @@
         <div class="text-center">
             <h1>{{ home_user.first_name}} {{ home_user.middle_name}} {{ home_user.last_name }}'s page</h1>
             <img class="text-center img-thumbnail" src="{{ url_for('static', filename='profile_pics/'+ home_user.profile_image) }}" width = "200" height = "200" alt=""">
-            <p>Email: {{ current_user.email }}</p>
+            <p>Email: {{ home_user.email }}</p>
         </div>
 
     </div>

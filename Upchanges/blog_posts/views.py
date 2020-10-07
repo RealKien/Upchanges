@@ -278,7 +278,7 @@ def delete_post(blog_validated_id):
     if blog_delete.creator != current_user and current_user.id!=admin.id: #if creator of the blog is not the current user
         abort(403)  #show 403 no permission page
 
-    if comment_blogs_num >= 2 or comment_blogs_num2 >=2 or comment_blogs_num3 >=2:
+    if comment_blogs_num >= 1 or comment_blogs_num2 >=1 or comment_blogs_num3 >=1:
         abort(403)
 
     db.session.delete(blog_delete)
@@ -379,7 +379,8 @@ def blog_info_delete(blog_info_id,blog_validated_id):
     comment_blogs3 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num3 = comment_blogs3.count()
 
-    if blog_info_delete.comment != current_user:
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+    if blog_info_delete.comment != current_user and current_user.id!=admin.id:
         abort(403)
 
     if comment_blogs_num >= 2 or comment_blogs_num2 >= 2 or comment_blogs_num3>=2:

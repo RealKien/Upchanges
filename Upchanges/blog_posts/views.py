@@ -407,7 +407,8 @@ def blog_idea_delete(blog_validated_id,blog_idea_id):
     comment_blogs3 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id))
     comment_blogs_num3 = comment_blogs3.count()
 
-    if blog_idea_delete.idea_creator != current_user:
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+    if blog_idea_delete.idea_creator != current_user and current_user.id!=admin.id :
         abort(403)
     if comment_blogs_num >=2 or comment_blogs_num2 >=2 or comment_blogs_num3 >=2:
         abort(403)
@@ -447,8 +448,8 @@ def blog_idea_update(blog_validated_id,blog_idea_id):
     projects_num = projects1.count()
 
     total_num = comment_blogs_num+ideas_num+projects_num
-
-    if blog_idea_update.idea_creator != current_user:
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+    if blog_idea_update.idea_creator != current_user and current_user.id!=admin.id:
         abort(403)
 
     form2 = BlogInfoForm()
@@ -492,8 +493,8 @@ def blog_project_update(blog_validated_id,blog_project_id):
 
     # blog_view = BlogPost.query.get_or_404(blog_validated_id)
     blog_project_update = BlogProject.query.get_or_404(blog_project_id)
-
-    if blog_project_update.project_creator != current_user: #if creator of the blog is not the current user
+    admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+    if blog_project_update.project_creator != current_user and current_user.id!=admin.id: #if creator of the blog is not the current user
         abort(403)  #show 403 no permission page
 
     form4 = BlogProjectForm()    #Creating an instance by writing A= B() ;creating an instance of B using A
@@ -539,8 +540,8 @@ def blog_project_delete(blog_validated_id,blog_project_id):
 
      comment_blogs3 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id))
      comment_blogs_num3 = comment_blogs3.count()
-
-     if blog_project_delete.project_creator != current_user:
+     admin = User.query.filter_by(email="letrungkien208@gmail.com").first_or_404()
+     if blog_project_delete.project_creator != current_user and current_user.id!=admin.id:
          abort(403)
      if comment_blogs_num >= 2 or comment_blogs_num2 >= 2 or comment_blogs_num3 >= 2:
          abort(403)

@@ -57,28 +57,40 @@ def add_project(blog_validated_id):
 
         if blog_project_check >= 2:
             abort(403)
-        elif "docs.google.com" not in blog_project_validated.project_link or "&site=" in blog_project_validated.project_link:
-            abort(403)
 
-        else:
-            db.session.add(blog_project_validated)
-            db.session.commit()
-            flash("Project added!")
 
-            page = request.args.get('page', 1, type=int)
-            projects1 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id)).order_by(
-                BlogProject.date.desc())
-            projects = projects1.paginate(page=page, per_page=4)
-            projects_num = projects1.count()
+        prefixes = ["https://", "http://"]
+        url = blog_project_validated.project_link
 
-            return redirect(url_for('blog_posts.blog_view',
-                                    form4=form4, projects=projects,
-                                    projects_num=projects_num,
-                                    blog_project_check=blog_project_check,
-                                    project_name=blog_project_validated.project_name,
-                                    project_image=project_image,
-                                    project_short_info=blog_project_validated.project_short_info,
-                                    blog_validated_id=blog_validated_id, page=page))
+        for pre in prefixes:
+            url = url.strip(pre)  # this gets rid of http or https prefixes
+            if url.startswith("docs.google.com"):
+                db.session.add(blog_project_validated)
+                db.session.commit()
+                flash("Project added!")
+
+                page = request.args.get('page', 1, type=int)
+                projects1 = BlogProject.query.filter(BlogProject.blog_post_id.ilike(blog_validated_id)).order_by(
+                    BlogProject.date.desc())
+                projects = projects1.paginate(page=page, per_page=4)
+                projects_num = projects1.count()
+
+                return redirect(url_for('blog_posts.blog_view',
+                                        form4=form4, projects=projects,
+                                        projects_num=projects_num,
+                                        blog_project_check=blog_project_check,
+                                        project_name=blog_project_validated.project_name,
+                                        project_image=project_image,
+                                        project_short_info=blog_project_validated.project_short_info,
+                                        blog_validated_id=blog_validated_id, page=page))
+            else:
+                abort(403)
+
+
+        # elif "docs.google.com" not in blog_project_validated.project_link or "&site=" in blog_project_validated.project_link:
+        #     abort(403)
+
+
 
     return render_template('add_project.html', form4=form4)
 

@@ -1,4 +1,4 @@
-# To connect all the codes in Upchanges's folder to run the application(app.py)
+# To connect all the codes in Upchanges's folder to run the application(upchanges.py)
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy

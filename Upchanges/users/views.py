@@ -79,7 +79,7 @@ def register():
                    "Please click this link to confirm your Upchanges account: {}    The link will expired in 30 minutes and you may not be able to confirm your email permanently!" \
  \
                    "   Thank you.".format(link)
-
+        app.logger.info(msg.body)
         mail.send(msg)
 
 

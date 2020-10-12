@@ -25,13 +25,17 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 
 
-MAIL_USERNAME = 'letrungkien208@gmail.com'
-MAIL_PASSWORD = 'bibopyeudau'
 
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = MAIL_USERNAME
-app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+
+
+
+
+
+
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') or 'letrungkien208@gmail.com'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') or'bibopyeudau'
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER') or "smtp.gmail.com"
+app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT') or 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 

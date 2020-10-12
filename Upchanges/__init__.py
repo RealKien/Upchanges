@@ -1,5 +1,8 @@
 # To connect all the codes in Upchanges's folder to run the application(upchanges.py)
+import logging
 import os
+from logging.handlers import RotatingFileHandler
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
@@ -107,4 +110,13 @@ app.register_blueprint(mongolia_blog_posts)
 app.register_blueprint(blog_info)
 
 
-
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/upchanges.log', maxBytes=10240,
+                                       backupCount=10)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Upchanges startup')
+    app.logger.info('Scheduler started')

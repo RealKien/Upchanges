@@ -11,6 +11,7 @@ users = Blueprint('users', __name__)
 
 
 mail = mail
+print(mail)
 
 s=s
 

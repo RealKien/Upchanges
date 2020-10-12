@@ -2,7 +2,7 @@
 import logging
 import os
 from logging.handlers import RotatingFileHandler
-
+from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
@@ -19,6 +19,7 @@ app.config['SECRET_KEY'] = 'Bibopyeudau123'
 
 # DATABASE SETUP
 basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir,'.env'))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,
                                                                     '../Upchanges/data.sqlite')  # Taking risk by using mysql, maysbe should had use sqlite.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -28,11 +29,12 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 
 
+#Need to changes the Mail Server, Gmail doesn't work
 
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') or 'letrungkien208@gmail.com'
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') or'bibopyeudau'
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER') or "smtp.gmail.com"
-app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT') or 465
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 

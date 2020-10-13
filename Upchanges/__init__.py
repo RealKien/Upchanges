@@ -31,10 +31,10 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 1
 
 #Need to changes the Mail Server, Gmail doesn't work
 
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
-app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') or 'AKIAXKIVF3IC7EMYCJFA'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') or 'BKnRSkA3+RVaJzUdqFQLM9lfxbAYLU6ilVNdghqru2fZ'
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER') or 'email-smtp.ap-northeast-1.amazonaws.com'
+app.config['MAIL_PORT'] = os.environ.get('MAIL_PORT') or '465'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 

@@ -10,3 +10,7 @@ def error_404(error):
 def error_403(error):
     return render_template('error_pages/403.html'), 403
 
+@error_pages.app_errorhandler(413)
+def error_413(error):
+    return render_template('error_pages/413.html'), 413
+

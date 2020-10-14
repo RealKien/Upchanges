@@ -40,7 +40,7 @@
 
         {% else %}
         <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Log in <span class="iconify" data-icon="bx:bx-log-in" data-inline="false"></span></a>
-        <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Sign up <img src="{{ url_for('static', filename='signup.png') }}" width="30" height="30" class="" alt=""></a>
+        <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Sign up <span class="iconify" data-icon="ant-design:user-add-outlined" data-inline="false"></span></a>
         {% endif %}
 
 

@@ -75,6 +75,7 @@ from Upchanges.core.usa_views import usa_core
 from Upchanges.core.estonia_views import estonia_core
 from Upchanges.core.ghana_views import ghana_core
 from Upchanges.core.mongolia_views import mongolia_core
+from Upchanges.core.other_countries import other_countries_core
 from Upchanges.users.views import users
 from Upchanges.error_pages.handlers import error_pages
 from Upchanges.blog_posts.views import blog_posts
@@ -84,6 +85,8 @@ from Upchanges.blog_posts.usa_views import usa_blog_posts
 from Upchanges.blog_posts.estonia_views import estonia_blog_posts
 from Upchanges.blog_posts.ghana_views import ghana_blog_posts
 from Upchanges.blog_posts.mongolia_views import mongolia_blog_posts
+#
+# from Upchanges.blog_posts.other_countries import other_countries_blog_posts
 from Upchanges.blog_info.views import blog_info
 
 
@@ -97,12 +100,15 @@ app.register_blueprint(usa_core)
 app.register_blueprint(estonia_core)
 app.register_blueprint(ghana_core)
 app.register_blueprint(mongolia_core)
+app.register_blueprint(other_countries_core)
 app.register_blueprint(vn_blog_posts)
 app.register_blueprint(jp_blog_posts)
 app.register_blueprint(usa_blog_posts)
 app.register_blueprint(estonia_blog_posts)
 app.register_blueprint(ghana_blog_posts)
 app.register_blueprint(mongolia_blog_posts)
+#
+# app.register_blueprint(other_countries_blog_posts)
 app.register_blueprint(blog_info)
 
 

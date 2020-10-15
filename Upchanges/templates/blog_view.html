@@ -277,6 +277,8 @@
 
         </div>
         <br>
+        <br>
+        <br>
         {% if post3.idea_creator == current_user or current_user.id==admin.id%}
                  <a href="{{ url_for('blog_posts.blog_idea_update', blog_validated_id=post3.blog_post_id, blog_idea_id=post3.blog_idea_id) }}"><button class="btn btn-light btn-sm text-muted ">Edit <span class="iconify" data-icon="oi-pencil" data-inline="false"></span></button></a>
                    {% if total_num >=2 %}
@@ -288,7 +290,8 @@
     {% endfor %}
 
 
-
+<br>
+<br>
 <br>
 
 <nav aria-label="Page navigation example">

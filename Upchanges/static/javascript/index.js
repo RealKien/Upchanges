@@ -9,7 +9,7 @@ $(document).ready(function(){
 if (document.cookie.indexOf('modal_shown=') >= 0) {
  //do nothing if modal_shown cookie is present
 } else {
-  $('#Welcome_model').modal('show');  //show modal pop up
+  $('#Welcome_model2').modal('show');  //show modal pop up
   document.cookie = 'modal_shown=seen'; //set cookie modal_shown
   //cookie will expire when browser is closed
 }

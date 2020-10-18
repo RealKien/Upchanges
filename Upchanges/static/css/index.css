@@ -1,3 +1,7 @@
+.space{
+    visibility: hidden;
+}
+
 
 
 #cool{
@@ -19,10 +23,23 @@ width: 100%;
 }
 
 
+/*.first-div{*/
+/*display: inline-block;*/
+/*}*/
 
 
+/*.second-div{*/
+/*    display: inline-block;*/
+/*    margin-left: 15px;*/
+/*    vertical-align: middle;*/
+/*    margin-top: auto;*/
+/*}*/
 
 
+/*.image{*/
+/*    vertical-align: middle;*/
+/*  display: inline-block;*/
+/*}*/
 
 @media screen and (min-width: 600px){
     .responsive2{

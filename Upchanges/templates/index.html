@@ -3,6 +3,7 @@
 
 {% block content %}
 <link href="../static/css/index.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
 
 
 
@@ -602,6 +603,58 @@ Postitage probleem
             {% endfor %}
           </ul>
      </nav>
+
+
+    {# Index welcome model #}
+<div id="Welcome_model" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Welcome to Upchanges! <img src="{{ url_for('static', filename='logo.png') }}" width="25" height="25" alt=""></h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Upchanges</strong> is an online platform that will help you create positive change projects or recruit more team members for your project.</p>
+                <p>Our website is completely <strong> FREE </strong> to use and sign up!</p>
+                <br>
+                <p><strong>You can use Upchanges to:</strong></p>
+
+                <ul>
+                    <li>Search, check out or add problems</li>
+                    <li>Click on the problem you want to read more.</li>
+                    <li>See additional information about the problem, ideas to solve it, and projects added by other peoples.</li>
+                    <li>Add your idea or project on a problem page</li>
+                    <li>Join positive change projects that are added by other peoples.</li>
+                    <li>Recruits more team members for your project.</li>
+                </ul>
+
+                <br>
+
+                <p>To get started, click below to sign up. If you already signed up, you can log in.</p>
+                <p>You could also click "Sign up" or "Log in" from the navigation bar.</p>
+                <div>
+                            <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Log in <span class="iconify" data-icon="bx:bx-log-in" data-inline="false"></span></a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Sign up <span class="iconify" data-icon="ant-design:user-add-outlined" data-inline="false"></span></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{#                    <p class="strong">Ways to use Upchanges:</p>#}
+{#                    <li>1. Scroll around the main page and check out problems.</li>#}
+{#                    <li>2. Use the filter buttons to narrow down the kind of problem you want to know more.</li>#}
+{#                    <li>3. If you didn't found the problem you are interested in, just add the problem by yourself.</li>#}
+{#                    <li>4. Click "Read more" on the problem to go to the page of it.</li>#}
+{#                    <li>5. At the problem page, you and other peoples could add more information about the problems,#}
+{#                    ideas to solve the problem, and possible, running, or retired positive change project.</li>#}
+{#                    <li>! To create or add a positive change project, click the "Add your project" -> click "Use this EASY Google Docs template to create your project's Google Docs (click here)" and followed the instructions in that Google Docs.</li>#}
+{#                <br>#}
+{#                <p>For people who don't have a project yet, following the steps above will help you become a change maker:</p>#}
+{#                <p class="text-muted">Identify the problem->Think of ideas to solve it-> Discuss and see ideas from other information-> Create your positive change project by clicking "Add your project"</p>#}
+{#                <p>For people who already have a project, following the steps above will help you recruit more team members for your project:</p>#}
+{#                <p class="text-muted">Add the problem that your project is trying to solve-> Add some of the ideas your project are usingn to solve the problem -> Add your positive change project and recruit others to create a team by clicking "Add your project"</p>#}
 
 {% endblock %}
 

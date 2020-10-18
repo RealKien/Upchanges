@@ -10,6 +10,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
     <link href="../static/css/base.css" rel="stylesheet">
+
     {# Always link to css after linking to Bootstrap #}
 
 
@@ -76,9 +77,10 @@
 
                             <p>To get started, click below to sign up. If you already signed up, you can log in.</p>
                             <p>You could also click "Sign up" or "Log in" from the navigation bar.</p>
+
                             <div>
-                                        <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Log in <span class="iconify" data-icon="bx:bx-log-in" data-inline="false"></span></a>
-                                        <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Sign up <span class="iconify" data-icon="ant-design:user-add-outlined" data-inline="false"></span></a>
+                                        <a class="color" href="{{ url_for('users.login') }}">Log in <span class="iconify" data-icon="bx:bx-log-in" data-inline="false"></span></a>
+                                        <a class="color ml-3" href="{{ url_for('users.register') }}">Sign up <span class="iconify" data-icon="ant-design:user-add-outlined" data-inline="false"></span></a>
                             </div>
 
                         </div>

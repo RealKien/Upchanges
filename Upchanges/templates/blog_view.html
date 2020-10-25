@@ -260,6 +260,8 @@
 
     {% for post3 in ideas.items %}
         <br>
+        <br>
+        <br>
         <div class="border rounded p-2">
         <small><a class="text-warning" href="{{ url_for('users.user_posts', username=post3.idea_creator.first_name+post3.idea_creator.middle_name+post3.idea_creator.last_name) }}"><img class="text-center rounded" src="{{ url_for('static', filename='profile_pics/'+ post3.idea_creator.profile_image) }}" width = "40" height = "40" alt=""> {{ post3.idea_creator.first_name}} {{ post3.idea_creator.middle_name }} {{ post3.idea_creator.last_name }}</a></small>
         <small class="text-muted ml-5">
@@ -273,7 +275,9 @@
           <br>
           <br>
           <p class="card-text text-break small">{{ post3.text }}</p>
-
+          <br>
+          <br>
+          <br>
 
         </div>
         <br>

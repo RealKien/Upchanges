@@ -11,4 +11,8 @@
     {{ form2.password.label }} {{ form2.password(class="form-group form-control") }} <br>
     {{ form2.submit(class="btn btn-secondary")}}
     </form>
+    <br>
+    <h5>------------------</h5>
+    <p>If you are a new user, click the Sign Up button below to create your Upchanges account:</p>
+    <a href="{{ url_for('users.register') }}"><button class="btn btn-success">Sign Up <span class="iconify" data-icon="ant-design:user-add-outlined" data-inline="false"></span></button></a>
 {% endblock %}

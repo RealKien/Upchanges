@@ -14,7 +14,16 @@
 }
 }
 
+
+
 @media screen and (max-width: 400px){
+    .responsive1{
+    width: 75px;
+    height: 75px;
+}
+}
+
+@media screen and (max-width: 750px){
     .responsive1{
     width: 75px;
     height: 75px;

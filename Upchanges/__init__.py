@@ -85,6 +85,7 @@ from Upchanges.blog_posts.usa_views import usa_blog_posts
 from Upchanges.blog_posts.estonia_views import estonia_blog_posts
 from Upchanges.blog_posts.ghana_views import ghana_blog_posts
 from Upchanges.blog_posts.mongolia_views import mongolia_blog_posts
+from Upchanges.blog_posts.other_countries import other_countries_blog_posts
 #
 # from Upchanges.blog_posts.other_countries import other_countries_blog_posts
 from Upchanges.blog_info.views import blog_info
@@ -107,6 +108,7 @@ app.register_blueprint(usa_blog_posts)
 app.register_blueprint(estonia_blog_posts)
 app.register_blueprint(ghana_blog_posts)
 app.register_blueprint(mongolia_blog_posts)
+app.register_blueprint(other_countries_blog_posts)
 #
 # app.register_blueprint(other_countries_blog_posts)
 app.register_blueprint(blog_info)

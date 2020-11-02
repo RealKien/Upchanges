@@ -9,7 +9,7 @@ class BlogPostForm(FlaskForm):
     problem_name = StringField('Problem Name', validators=[DataRequired()])
     text = TextAreaField('Text', validators=[DataRequired()])
     problem_type = SelectField('Type of Problem', choices=[('education','Education'),('health','Health'),('environment','Environment'),('economics','Economics'),('society','Society')],validators=[DataRequired()])
-    country = SelectField('Country location', choices=[('Vietnam', 'Vietnam'), ('Japan', 'Japan'),('United States of America', 'United States of America'),('Estonia','Estonia'),('Ghana','Ghana'),('Mongolia','Mongolia')], validators=[DataRequired()])
+    country = SelectField('Country location', choices=[('Vietnam', 'Vietnam'), ('Japan', 'Japan'),('United States of America', 'United States of America'),('Estonia','Estonia'),('Ghana','Ghana'),('Mongolia','Mongolia'),('Others','Others')], validators=[DataRequired()])
     problem_submit = SubmitField("Post")
 
 

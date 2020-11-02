@@ -295,7 +295,6 @@
                 <img class=" rounded mx-auto d-block" src="../static/countryflags/mongolia_flag.png" alt="" height="25" width="40">
               {% elif country=='Others' %}
               Country: Other Countries
-                <img class=" rounded mx-auto d-block" src="../static/countryflags/other_countries.jpg" alt="" height="25" width="40">
             {% endif %}<span class="iconify" data-icon="si-glyph:arrow-change" data-inline="false"></span>
        </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -305,7 +304,7 @@
                 <a class="dropdown-item" href="{{ url_for('estonia_core.index') }}">Estonia <span class="iconify" data-icon="openmoji:flag-estonia" data-inline="false"></span></a>
                 <a class="dropdown-item" href="{{ url_for('ghana_core.index') }}">Ghana <span class="iconify" data-icon="openmoji:flag-ghana" data-inline="false"></span></a>
                 <a class="dropdown-item" href="{{ url_for('mongolia_core.index') }}">Mongolia <span class="iconify" data-icon="openmoji:flag-mongolia" data-inline="false"></span></a>
-                <a class="dropdown-item" href="{{ url_for('other_countries_core.index') }}">Other countries <img class=" rounded mx-auto d-block" src="../static/countryflags/other_countries.jpg" alt="" height="5" width="10"></a>
+                <a class="dropdown-item" href="{{ url_for('other_countries_core.index') }}">Other countries</a>
                 <a class="dropdown-item" href="{{ url_for('core.index') }}">Earth/All countries <span class="iconify" data-icon="ion:earth" data-inline="false"></span></a>
 
           </div>

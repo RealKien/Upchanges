@@ -11,6 +11,12 @@ def load_user(user_id):
 
 
 
+class UpchangesX_email(db.Model):
+    __tablename__ = 'upchangesx_email'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, index=True)
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'

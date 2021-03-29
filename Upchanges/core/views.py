@@ -1,11 +1,12 @@
 #create the view function for some main pages
 import os
 
-from flask import render_template, request, Blueprint, url_for, flash, redirect
+from flask import render_template, request, Blueprint, url_for, flash, redirect, abort
 from sqlalchemy import or_, null
 
-from Upchanges.core.forms import Blogsearch_form
-from Upchanges.models import BlogPost
+from Upchanges import db, mail, app, s
+from Upchanges.core.forms import Blogsearch_form, UpchangesX_form
+from Upchanges.models import BlogPost, UpchangesX_email
 import _sqlite3
 
 
@@ -189,8 +190,39 @@ def society():
 
 
 
+@core.route('/upchangesx', methods=['GET', 'POST'])
+def upchangesx():
+    country = 'Earth'
+
+    form = UpchangesX_form()
+
+    # submission_successful = False
+
+    if form.validate_on_submit():
+        user = UpchangesX_email(email=form.email.data)
+
+        check = UpchangesX_email.query.filter_by(email=user.email).first()
+        if check:
+            abort(403)
+        elif "@" not in form.email.data:
+            print("Invalid email")
+            abort(403)
+
+        db.session.add(user)
+        db.session.commit()
+        print("Email registered for {}".format(user.email))
+        # submission_successful = True
+
+        return redirect(url_for('core.upchangesx_thankyou'))
 
 
+    return render_template('upchangesx.html', country=country, form=form)
+
+
+@core.route('/upchangesx/subscribed')
+def upchangesx_thankyou():
+    country = 'Earth'
+    return render_template('upchangesx_thankyou.html', country=country)
 
 @core.route('/info')
 def info():

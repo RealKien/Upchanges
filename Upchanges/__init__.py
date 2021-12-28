@@ -15,7 +15,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, TimedSerializ
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'Bibopyeudau123'
+app.config['SECRET_KEY'] = 'Thispasswordwillnotworkanywhereelse123'
 
 # DATABASE SETUP
 basedir = os.path.abspath(os.path.dirname(__file__))
